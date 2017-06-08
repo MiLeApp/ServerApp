@@ -40,7 +40,7 @@ namespace RESTApp.Controllers
         // GET: api/Person/5
         public string Get(int id)
         {
-            return "value";
+            return "value1";
         }
 
         // POST: api/Person
