@@ -40,3 +40,45 @@ c:\users\yonatant\documents\visual studio 2017\Projects\RESTApp\RESTApp\bin\Syst
 c:\users\yonatant\documents\visual studio 2017\Projects\RESTApp\RESTApp\obj\Debug\RESTApp.csprojResolveAssemblyReference.cache
 c:\users\yonatant\documents\visual studio 2017\Projects\RESTApp\RESTApp\obj\Debug\RESTApp.dll
 c:\users\yonatant\documents\visual studio 2017\Projects\RESTApp\RESTApp\obj\Debug\RESTApp.pdb
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\csc.exe
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\csc.exe.config
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\csc.rsp
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\csi.exe
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\csi.rsp
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\Microsoft.CodeAnalysis.dll
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\Microsoft.CSharp.Core.targets
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\Microsoft.VisualBasic.Core.targets
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\System.AppContext.dll
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\System.Collections.Immutable.dll
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\System.Diagnostics.StackTrace.dll
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\System.IO.FileSystem.dll
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\System.IO.FileSystem.Primitives.dll
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\System.Reflection.Metadata.dll
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\vbc.exe
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\vbc.exe.config
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\vbc.rsp
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\VBCSCompiler.exe
+E:\RideApp\ServerApp\RESTApp\bin\roslyn\VBCSCompiler.exe.config
+E:\RideApp\ServerApp\RESTApp\bin\RESTApp.dll.config
+E:\RideApp\ServerApp\RESTApp\bin\RESTApp.dll
+E:\RideApp\ServerApp\RESTApp\bin\RESTApp.pdb
+E:\RideApp\ServerApp\RESTApp\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+E:\RideApp\ServerApp\RESTApp\bin\Newtonsoft.Json.dll
+E:\RideApp\ServerApp\RESTApp\bin\System.Net.Http.Formatting.dll
+E:\RideApp\ServerApp\RESTApp\bin\System.Web.Http.dll
+E:\RideApp\ServerApp\RESTApp\bin\System.Web.Http.WebHost.dll
+E:\RideApp\ServerApp\RESTApp\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+E:\RideApp\ServerApp\RESTApp\bin\Newtonsoft.Json.xml
+E:\RideApp\ServerApp\RESTApp\bin\System.Net.Http.Formatting.xml
+E:\RideApp\ServerApp\RESTApp\bin\System.Web.Http.xml
+E:\RideApp\ServerApp\RESTApp\bin\System.Web.Http.WebHost.xml
+E:\RideApp\ServerApp\RESTApp\obj\Debug\RESTApp.csprojResolveAssemblyReference.cache
+E:\RideApp\ServerApp\RESTApp\obj\Debug\RESTApp.dll
+E:\RideApp\ServerApp\RESTApp\obj\Debug\RESTApp.pdb

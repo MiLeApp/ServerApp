@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using RESTApp.Models;
+using RESTApp.BL;
 
 namespace RESTApp.Controllers
 {
@@ -21,27 +22,29 @@ namespace RESTApp.Controllers
         public User Get(int id)
         {
             //return user by id
-            return new User() { Id = id};
+            return BLManager.Instance.GetUser(id);
         }
 
         // POST: api/User
-        public string Post(User user)
+        public int Post(User user)
         {
             //insert user
             //return user uid
-            return "";
+            return BLManager.Instance.AddNewUser(user);
         }
 
         // PUT: api/User/5
         public void Put(int id, User user)
         {
             //update user
+            BLManager.Instance.UpdateUser(id, user);
         }
 
         // DELETE: api/User/5
         public void Delete(int id)
         {
             //delete user
+            BLManager.Instance.DeleteUser(id);
         }
     }
 }

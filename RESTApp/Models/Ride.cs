@@ -8,9 +8,13 @@ namespace RESTApp.Models
     public class Ride
     {
         public int Id { get; set; }
+        public int GroupId { get; set; }
         public string From { get; set; }
         public string To { get; set; }
-        public string DriverId { get; set; }
-        public DateTime DepartDate { get; set; }
+        public DateTime Date { get; set; }
+        public int DriverId { get; set; }
+        public int[] Users { get; set; }
+        public float Distance { get; set; }
+
     }
 }

@@ -6,6 +6,8 @@ using System.Net.Http;
 using System.Web.Http;
 using RESTApp.Models;
 
+using RESTApp.BL;
+
 namespace RESTApp.Controllers
 {
     public class GroupController : ApiController
@@ -21,27 +23,30 @@ namespace RESTApp.Controllers
         // GET: api/Group/5
         public Group Get(int id)
         {
-            return new Group() { Id = id};
+            return BLManager.Instance.GetGroup(id);
         }
 
         // POST: api/Group
-        public string Post(Group group)
+        public int Post(Group group)
         {
             //create new group
             //return group uid
-            return "";
+            
+            return BLManager.Instance.AddNewGroup(group); ;
         }
 
         // PUT: api/Group/5
         public void Put(int id, Group group)
         {
             //update group
+            BLManager.Instance.UpdateGroup(id, group);
         }
 
         // DELETE: api/Group/5
         public void Delete(int id)
         {
             //delete group
+            BLManager.Instance.DeleteGroup(id);
         }
     }
 }

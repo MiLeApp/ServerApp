@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using RESTApp.Models;
+using RESTApp.BL;
 
 namespace RESTApp.Controllers
 {
@@ -19,26 +20,28 @@ namespace RESTApp.Controllers
         // GET: api/Ride/5
         public Ride Get(int id)
         {
-            return new Ride() { Id = id};
+            return BLManager.Instance.GetRide(id);
         }
 
         // POST: api/Ride
-        public string Post(Ride ride)
+        public int Post(Ride ride)
         {
             //create ride return id
-            return "";
+            return BLManager.Instance.AddNewRide(ride);
         }
 
         // PUT: api/Ride/5
         public void Put(int id, Ride ride)
         {
             //update ride
+            BLManager.Instance.UpdateRide(id, ride);
         }
 
         // DELETE: api/Ride/5
         public void Delete(int id)
         {
             //delete ride
+            BLManager.Instance.DeleteRide(id);
         }
     }
 }
