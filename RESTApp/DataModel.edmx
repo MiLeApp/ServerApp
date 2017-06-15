@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="RideAppDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Groups">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="text" />
+          <Property Name="Type" Type="int" />
+          <Property Name="From" Type="text" />
+          <Property Name="To" Type="text" />
+          <Property Name="AdminName" Type="text" />
+          <Property Name="ExpireDate" Type="date" />
+        </EntityType>
+        <EntityType Name="GroupUsers">
+          <Key>
+            <PropertyRef Name="GroupId" />
+          </Key>
+          <Property Name="GroupId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="Role" Type="int" />
+          <Property Name="From" Type="text" />
+          <Property Name="To" Type="text" />
+          <Property Name="Matched" Type="int" />
+        </EntityType>
+        <EntityType Name="RafaelMembers">
+          <Key>
+            <PropertyRef Name="PhoneNum" />
+          </Key>
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="PhoneNum" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Home Adress" Type="varchar" MaxLength="50" />
+          <Property Name="Work Site" Type="nchar" MaxLength="10" />
+          <Property Name="HasCar" Type="int" />
+        </EntityType>
+        <EntityType Name="Rides">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="GroupId" Type="int" />
+          <Property Name="Date" Type="date" />
+          <Property Name="Time" Type="datetime" />
+          <Property Name="DriverId" Type="int" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="Distance" Type="int" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="IdFB" Type="int" />
+          <Property Name="PhoneNum" Type="text" />
+          <Property Name="NickName" Type="text" />
+          <Property Name="Mileage" Type="int" />
+        </EntityType>
+        <EntityContainer Name="RideAppDBModelStoreContainer">
+          <EntitySet Name="Groups" EntityType="Self.Groups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GroupUsers" EntityType="Self.GroupUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RafaelMembers" EntityType="Self.RafaelMembers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rides" EntityType="Self.Rides" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RideAppDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="From" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="To" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AdminName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ExpireDate" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="GroupUser">
+          <Key>
+            <PropertyRef Name="GroupId" />
+          </Key>
+          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="Role" Type="Int32" />
+          <Property Name="From" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="To" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Matched" Type="Int32" />
+        </EntityType>
+        <EntityType Name="RafaelMember">
+          <Key>
+            <PropertyRef Name="PhoneNum" />
+          </Key>
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNum" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Home_Adress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Work_Site" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="HasCar" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Ride">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="GroupId" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="Time" Type="DateTime" Precision="3" />
+          <Property Name="DriverId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="Distance" Type="Int32" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="IdFB" Type="Int32" />
+          <Property Name="PhoneNum" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="NickName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Mileage" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="RideAppDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Groups" EntityType="Self.Group" />
+          <EntitySet Name="GroupUsers" EntityType="Self.GroupUser" />
+          <EntitySet Name="RafaelMembers" EntityType="Self.RafaelMember" />
+          <EntitySet Name="Rides" EntityType="Self.Ride" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RideAppDBModelStoreContainer" CdmEntityContainer="RideAppDBEntities">
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="RideAppDBModel.Group">
+              <MappingFragment StoreEntitySet="Groups">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="From" ColumnName="From" />
+                <ScalarProperty Name="To" ColumnName="To" />
+                <ScalarProperty Name="AdminName" ColumnName="AdminName" />
+                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GroupUsers">
+            <EntityTypeMapping TypeName="RideAppDBModel.GroupUser">
+              <MappingFragment StoreEntitySet="GroupUsers">
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="From" ColumnName="From" />
+                <ScalarProperty Name="To" ColumnName="To" />
+                <ScalarProperty Name="Matched" ColumnName="Matched" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RafaelMembers">
+            <EntityTypeMapping TypeName="RideAppDBModel.RafaelMember">
+              <MappingFragment StoreEntitySet="RafaelMembers">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PhoneNum" ColumnName="PhoneNum" />
+                <ScalarProperty Name="Home_Adress" ColumnName="Home Adress" />
+                <ScalarProperty Name="Work_Site" ColumnName="Work Site" />
+                <ScalarProperty Name="HasCar" ColumnName="HasCar" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rides">
+            <EntityTypeMapping TypeName="RideAppDBModel.Ride">
+              <MappingFragment StoreEntitySet="Rides">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="DriverId" ColumnName="DriverId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Distance" ColumnName="Distance" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="RideAppDBModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdFB" ColumnName="IdFB" />
+                <ScalarProperty Name="PhoneNum" ColumnName="PhoneNum" />
+                <ScalarProperty Name="NickName" ColumnName="NickName" />
+                <ScalarProperty Name="Mileage" ColumnName="Mileage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

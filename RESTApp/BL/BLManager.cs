@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.SqlClient;
+using RESTApp.DataAccessLayerNameSpace;
 
-using  RESTApp.Models;
+
+//using  RESTApp.Models;
 
 namespace RESTApp.BL
 {
     public sealed class BLManager
     {
         private static readonly BLManager m_instance = new BLManager();
-        private  SqlConnection m_appDBConn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\RideApp\ServerApp\RESTApp\App_Data\RideAppDB.mdb;Integrated Security=True");
+
+        DataAccessLayer m_dal = new DataAccessLayer();
+        //private  SqlConnection m_appDBConn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\USERS\YONATANT\DOWNLOADS\SERVERAPP\SERVERAPP\RESTAPP\APP_DATA\RIDEAPPDB.MDF;Integrated Security=True");
         private int m_userIDIndex = 0;
         private int m_groupIDIndex = 0;
         private int m_rideIDIndex = 0;
@@ -32,13 +36,18 @@ namespace RESTApp.BL
 
             ++m_userIDIndex;
             //add new user to DB
+            user.Id = m_userIDIndex;
+            m_dal.AddUser(user);
+
             return m_userIDIndex;
         }
 
         public User GetUser(int userID)
         {
             User userObj = new User();
+
             //get user data from DB
+            userObj = m_dal.GetUser(userID);
             return userObj;
         }
 
