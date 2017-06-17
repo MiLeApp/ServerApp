@@ -17,13 +17,8 @@ namespace RESTApp.Controllers
         // GET: api/Person
         public IEnumerable<string> Get()
         {
-            
             List<string> namesList = new List<string>();
-
-            string query = "SELECT Name FROM Contacts";
-           
-
-                return namesList;
+             return namesList;
         }
 
         // GET: api/Person/5

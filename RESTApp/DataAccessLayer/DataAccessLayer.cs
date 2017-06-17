@@ -16,7 +16,7 @@ namespace RESTApp.DataAccessLayerNameSpace
                 m_db.Users.Add(p_user);
                 m_db.SaveChanges();
             }
-            catch(Exception)
+            catch(Exception e)
             {
                 return null;
             }
@@ -108,6 +108,21 @@ namespace RESTApp.DataAccessLayerNameSpace
             return m_db.Groups.ToList();
         }
 
+        public List<RideUser> GetAllRideUsers()
+        {
+            return m_db.RideUsers.ToList();
+        }
+
+        public List<Match> GetAllMatches()
+        {
+            return m_db.Matches.ToList();
+        }
+
+        public List<RideRequest> GetAllRideRequests()
+        {
+            return m_db.RideRequests.ToList();
+        }
+
         #endregion
 
         #region UpdateFunctions
@@ -116,7 +131,7 @@ namespace RESTApp.DataAccessLayerNameSpace
         {
             try
             {
-                User user = m_db.Users.First(userRecord => userRecord.Id == p_userId);
+                User user = m_db.Users.First(userRecord => userRecord.UserId == p_userId);
                 user.IdFB = p_user.IdFB;
                 user.Mileage = p_user.Mileage;
                 user.NickName = p_user.NickName;
@@ -124,7 +139,7 @@ namespace RESTApp.DataAccessLayerNameSpace
                 m_db.SaveChanges();
                 return user;
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return null;
             }
@@ -135,12 +150,11 @@ namespace RESTApp.DataAccessLayerNameSpace
         {
             try
             {
-                Ride ride = m_db.Rides.First(rideRecord => rideRecord.Id == p_rideId);
+                Ride ride = m_db.Rides.First(rideRecord => rideRecord.RideId == p_rideId);
                 ride.Date = p_ride.Date;
                 ride.Distance = p_ride.Distance;
-                ride.DriverId = p_ride.DriverId;
                 ride.Time = p_ride.Time;
-                ride.UserId = p_ride.UserId;
+                ride.RideId = p_ride.RideId;
                 m_db.SaveChanges();
                 return ride;
             }
@@ -174,7 +188,7 @@ namespace RESTApp.DataAccessLayerNameSpace
         {
             try
             {
-                Group group = m_db.Groups.First(groupRecord => groupRecord.Id == p_groupId);
+                Group group = m_db.Groups.First(groupRecord => groupRecord.GroupId == p_groupId);
                 group.AdminName = p_group.AdminName;
                 group.ExpireDate = p_group.ExpireDate;
                 group.From = p_group.From;
@@ -190,6 +204,60 @@ namespace RESTApp.DataAccessLayerNameSpace
             }
         }
 
+        public Match UpdateMatches(int p_groupId, Match p_match)
+        {
+            try
+            {
+                Match match = m_db.Matches.First(matchRecord => matchRecord.GroupId == p_groupId);
+                match.DriverId = p_match.DriverId;
+                match.MatchStatus = p_match.MatchStatus;
+                match.UserId = p_match.UserId;
+                m_db.SaveChanges();
+                return match;
+            }
+            catch(Exception)
+            {
+                return null;
+            }
+        }
+
+        public RideRequest UpdateRideRequests(int p_userId, RideRequest p_rideRequest)
+        {
+            try
+            {
+                RideRequest request = m_db.RideRequests
+                    .First(rideRequestRecord => rideRequestRecord.UserId == p_userId);
+                request.From = p_rideRequest.From;
+                request.GroupId = p_rideRequest.GroupId;
+                request.Role = p_rideRequest.Role;
+                request.Time = p_rideRequest.Time;
+                request.To = p_rideRequest.To;
+                m_db.SaveChanges();
+                return request;
+            }
+            catch(Exception)
+            {
+                return null;
+            }
+        }
+
+        public RideUser UpdateRideUsers(int p_rideId, RideUser p_rideUser)
+        {
+            try
+            {
+                RideUser rideUser = m_db.RideUsers
+                    .First(rideUserRecord => rideUserRecord.RideId == p_rideId);
+                rideUser.Role = p_rideUser.Role;
+                rideUser.UserId = p_rideUser.UserId;
+                m_db.SaveChanges();
+                return rideUser;
+            }
+            catch(Exception)
+            {
+                return null;
+            }
+        }
+
         #endregion
 
         #region GetByIdFunctions
@@ -198,7 +266,7 @@ namespace RESTApp.DataAccessLayerNameSpace
         {
             try
             {
-                User user = m_db.Users.First(userRecord => userRecord.Id == p_userId);
+                User user = m_db.Users.First(userRecord => userRecord.UserId == p_userId);
                 return user;
             }
             catch(Exception)
@@ -211,7 +279,7 @@ namespace RESTApp.DataAccessLayerNameSpace
         {
             try
             {
-                Ride ride = m_db.Rides.First(rideRecord => rideRecord.Id == p_rideId);
+                Ride ride = m_db.Rides.First(rideRecord => rideRecord.RideId == p_rideId);
                 return ride;
             }
             catch(Exception)
@@ -238,8 +306,49 @@ namespace RESTApp.DataAccessLayerNameSpace
         {
             try
             {
-                Group group = m_db.Groups.First(groupRecord => groupRecord.Id == p_groupId);
+                Group group = m_db.Groups.First(groupRecord => groupRecord.GroupId == p_groupId);
                 return group;
+            }
+            catch(Exception)
+            {
+                return null;
+            }
+        }
+
+        public Match GetMatch(int p_groupId)
+        {
+            try
+            {
+                Match match = m_db.Matches.First(matchRecord => matchRecord.GroupId == p_groupId);
+                return match;
+            }
+            catch(Exception)
+            {
+                return null;
+            }
+        }
+
+        public RideRequest GetRideRequest(int p_userId)
+        {
+            try
+            {
+                RideRequest rideRequest = m_db.RideRequests
+                    .First(rideRequestRecord => rideRequestRecord.UserId == p_userId);
+                return rideRequest;
+            }
+            catch(Exception)
+            {
+                return null;
+            }
+        }
+
+        public RideUser GetRideUser(int p_rideId)
+        {
+            try
+            {
+                RideUser rideUser = m_db.RideUsers
+                    .First(rideUserRecord => rideUserRecord.RideId == p_rideId);
+                return rideUser;
             }
             catch(Exception)
             {
@@ -304,6 +413,51 @@ namespace RESTApp.DataAccessLayerNameSpace
                 m_db.Groups.Remove(group);
                 m_db.SaveChanges();
                 return group;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public Match DeleteMatch(int p_groupId)
+        {
+            try
+            {
+                Match match = GetMatch(p_groupId);
+                m_db.Matches.Remove(match);
+                m_db.SaveChanges();
+                return match;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public RideRequest DeleteRideRequest(int p_userId)
+        {
+            try
+            {
+                RideRequest rideRequest = GetRideRequest(p_userId);
+                m_db.RideRequests.Remove(rideRequest);
+                m_db.SaveChanges();
+                return rideRequest;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public RideUser DeleteRideUser(int p_rideId)
+        {
+            try
+            {
+                RideUser rideUser = GetRideUser(p_rideId);
+                m_db.RideUsers.Remove(rideUser);
+                m_db.SaveChanges();
+                return rideUser;
             }
             catch
             {

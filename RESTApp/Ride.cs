@@ -14,12 +14,10 @@ namespace RESTApp
     
     public partial class Ride
     {
-        public int Id { get; set; }
+        public int RideId { get; set; }
         public Nullable<int> GroupId { get; set; }
         public Nullable<System.DateTime> Date { get; set; }
         public Nullable<System.DateTime> Time { get; set; }
-        public Nullable<int> DriverId { get; set; }
-        public Nullable<int> UserId { get; set; }
         public Nullable<int> Distance { get; set; }
     }
 }

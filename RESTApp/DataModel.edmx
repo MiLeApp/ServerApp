@@ -7,9 +7,9 @@
       <Schema Namespace="RideAppDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Groups">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="GroupId" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="GroupId" Type="int" Nullable="false" />
           <Property Name="Name" Type="text" />
           <Property Name="Type" Type="int" />
           <Property Name="From" Type="text" />
@@ -28,6 +28,15 @@
           <Property Name="To" Type="text" />
           <Property Name="Matched" Type="int" />
         </EntityType>
+        <EntityType Name="Matches">
+          <Key>
+            <PropertyRef Name="GroupId" />
+          </Key>
+          <Property Name="GroupId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="DriverId" Type="float" />
+          <Property Name="MatchStatus" Type="int" />
+        </EntityType>
         <EntityType Name="RafaelMembers">
           <Key>
             <PropertyRef Name="PhoneNum" />
@@ -38,23 +47,40 @@
           <Property Name="Work Site" Type="nchar" MaxLength="10" />
           <Property Name="HasCar" Type="int" />
         </EntityType>
+        <EntityType Name="RideRequests">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="GroupId" Type="int" />
+          <Property Name="Role" Type="int" />
+          <Property Name="From" Type="text" />
+          <Property Name="To" Type="text" />
+          <Property Name="Time" Type="datetime" />
+        </EntityType>
         <EntityType Name="Rides">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="RideId" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="RideId" Type="int" Nullable="false" />
           <Property Name="GroupId" Type="int" />
           <Property Name="Date" Type="date" />
           <Property Name="Time" Type="datetime" />
-          <Property Name="DriverId" Type="int" />
-          <Property Name="UserId" Type="int" />
           <Property Name="Distance" Type="int" />
+        </EntityType>
+        <EntityType Name="RideUsers">
+          <Key>
+            <PropertyRef Name="RideId" />
+          </Key>
+          <Property Name="RideId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="text" />
+          <Property Name="Role" Type="int" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="IdFB" Type="int" />
           <Property Name="PhoneNum" Type="text" />
           <Property Name="NickName" Type="text" />
@@ -63,8 +89,11 @@
         <EntityContainer Name="RideAppDBModelStoreContainer">
           <EntitySet Name="Groups" EntityType="Self.Groups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupUsers" EntityType="Self.GroupUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Matches" EntityType="Self.Matches" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RafaelMembers" EntityType="Self.RafaelMembers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RideRequests" EntityType="Self.RideRequests" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rides" EntityType="Self.Rides" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RideUsers" EntityType="Self.RideUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema>
@@ -74,9 +103,9 @@
       <Schema Namespace="RideAppDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Group">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="GroupId" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="GroupId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Type" Type="Int32" />
           <Property Name="From" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -95,6 +124,15 @@
           <Property Name="To" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Matched" Type="Int32" />
         </EntityType>
+        <EntityType Name="Match">
+          <Key>
+            <PropertyRef Name="GroupId" />
+          </Key>
+          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="DriverId" Type="Double" />
+          <Property Name="MatchStatus" Type="Int32" />
+        </EntityType>
         <EntityType Name="RafaelMember">
           <Key>
             <PropertyRef Name="PhoneNum" />
@@ -105,23 +143,40 @@
           <Property Name="Work_Site" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="HasCar" Type="Int32" />
         </EntityType>
+        <EntityType Name="RideRequest">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="GroupId" Type="Int32" />
+          <Property Name="Role" Type="Int32" />
+          <Property Name="From" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="To" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Time" Type="DateTime" Precision="3" />
+        </EntityType>
         <EntityType Name="Ride">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="RideId" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="RideId" Type="Int32" Nullable="false" />
           <Property Name="GroupId" Type="Int32" />
           <Property Name="Date" Type="DateTime" Precision="0" />
           <Property Name="Time" Type="DateTime" Precision="3" />
-          <Property Name="DriverId" Type="Int32" />
-          <Property Name="UserId" Type="Int32" />
           <Property Name="Distance" Type="Int32" />
+        </EntityType>
+        <EntityType Name="RideUser">
+          <Key>
+            <PropertyRef Name="RideId" />
+          </Key>
+          <Property Name="RideId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Role" Type="Int32" />
         </EntityType>
         <EntityType Name="User">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="IdFB" Type="Int32" />
           <Property Name="PhoneNum" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="NickName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -130,8 +185,11 @@
         <EntityContainer Name="RideAppDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Groups" EntityType="Self.Group" />
           <EntitySet Name="GroupUsers" EntityType="Self.GroupUser" />
+          <EntitySet Name="Matches" EntityType="Self.Match" />
           <EntitySet Name="RafaelMembers" EntityType="Self.RafaelMember" />
+          <EntitySet Name="RideRequests" EntityType="Self.RideRequest" />
           <EntitySet Name="Rides" EntityType="Self.Ride" />
+          <EntitySet Name="RideUsers" EntityType="Self.RideUser" />
           <EntitySet Name="Users" EntityType="Self.User" />
         </EntityContainer>
       </Schema>
@@ -143,7 +201,7 @@
           <EntitySetMapping Name="Groups">
             <EntityTypeMapping TypeName="RideAppDBModel.Group">
               <MappingFragment StoreEntitySet="Groups">
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="From" ColumnName="From" />
@@ -165,6 +223,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Matches">
+            <EntityTypeMapping TypeName="RideAppDBModel.Match">
+              <MappingFragment StoreEntitySet="Matches">
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="DriverId" ColumnName="DriverId" />
+                <ScalarProperty Name="MatchStatus" ColumnName="MatchStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="RafaelMembers">
             <EntityTypeMapping TypeName="RideAppDBModel.RafaelMember">
               <MappingFragment StoreEntitySet="RafaelMembers">
@@ -176,23 +244,42 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="RideRequests">
+            <EntityTypeMapping TypeName="RideAppDBModel.RideRequest">
+              <MappingFragment StoreEntitySet="RideRequests">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="From" ColumnName="From" />
+                <ScalarProperty Name="To" ColumnName="To" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Rides">
             <EntityTypeMapping TypeName="RideAppDBModel.Ride">
               <MappingFragment StoreEntitySet="Rides">
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="RideId" ColumnName="RideId" />
                 <ScalarProperty Name="GroupId" ColumnName="GroupId" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Time" ColumnName="Time" />
-                <ScalarProperty Name="DriverId" ColumnName="DriverId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Distance" ColumnName="Distance" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RideUsers">
+            <EntityTypeMapping TypeName="RideAppDBModel.RideUser">
+              <MappingFragment StoreEntitySet="RideUsers">
+                <ScalarProperty Name="RideId" ColumnName="RideId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="RideAppDBModel.User">
               <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="IdFB" ColumnName="IdFB" />
                 <ScalarProperty Name="PhoneNum" ColumnName="PhoneNum" />
                 <ScalarProperty Name="NickName" ColumnName="NickName" />

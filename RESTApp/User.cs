@@ -14,10 +14,10 @@ namespace RESTApp
     
     public partial class User
     {
-        public int Id { get; set; }
-        public int IdFB { get; set; }
+        public int UserId { get; set; }
+        public Nullable<int> IdFB { get; set; }
         public string PhoneNum { get; set; }
         public string NickName { get; set; }
-        public int Mileage { get; set; }
+        public Nullable<int> Mileage { get; set; }
     }
 }

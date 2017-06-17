@@ -27,8 +27,11 @@ namespace RESTApp
     
         public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<GroupUser> GroupUsers { get; set; }
+        public virtual DbSet<Match> Matches { get; set; }
         public virtual DbSet<RafaelMember> RafaelMembers { get; set; }
+        public virtual DbSet<RideRequest> RideRequests { get; set; }
         public virtual DbSet<Ride> Rides { get; set; }
+        public virtual DbSet<RideUser> RideUsers { get; set; }
         public virtual DbSet<User> Users { get; set; }
     }
 }

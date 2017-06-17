@@ -36,7 +36,7 @@ namespace RESTApp.BL
 
             ++m_userIDIndex;
             //add new user to DB
-            user.Id = m_userIDIndex;
+            user.UserId = m_userIDIndex;
             m_dal.AddUser(user);
 
             return m_userIDIndex;
@@ -67,6 +67,8 @@ namespace RESTApp.BL
 
             ++m_groupIDIndex;
             //add new group to DB
+            group.GroupId = m_groupIDIndex;
+            m_dal.AddGroup(group);
             return m_groupIDIndex;
         }
 
@@ -74,6 +76,7 @@ namespace RESTApp.BL
         {
             Group groupObj = new Group();
             //get user data from DB
+            groupObj = m_dal.GetGroup(groupID);
             return groupObj;
         }
 

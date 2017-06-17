@@ -14,7 +14,7 @@ namespace RESTApp
     
     public partial class Group
     {
-        public int Id { get; set; }
+        public int GroupId { get; set; }
         public string Name { get; set; }
         public Nullable<int> Type { get; set; }
         public string From { get; set; }
