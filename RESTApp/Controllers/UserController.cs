@@ -26,7 +26,7 @@ namespace RESTApp.Controllers
         }
 
         // POST: api/User
-        public int Post(User user)
+        public User Post(User user)
         {
             //insert user
             //return user uid

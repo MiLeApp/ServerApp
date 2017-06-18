@@ -7,6 +7,51 @@ namespace RESTApp.DataAccessLayerNameSpace
 {
     public class DataAccessLayer
     {
+        #region GetLengthFunctions
+
+        public int GetGroupsLength()
+        {
+            return m_db.Groups.Count();
+        }
+
+        public int GetGroupUsersLength()
+        {
+            return m_db.GroupUsers.Count();
+        }
+
+        public int GetMatchesLength()
+        {
+            return m_db.Matches.Count();
+        }
+
+        public int GetRafaelMemebersLength()
+        {
+            return m_db.RafaelMembers.Count();
+        }
+
+        public int GetRideRequestsLength()
+        {
+            return m_db.RideRequests.Count();
+        }
+
+        public int GetRidesLength()
+        {
+            return m_db.Rides.Count();
+        }
+
+        public int GetRideUsersLength()
+        {
+            return m_db.RideUsers.Count();
+        }
+
+        public int GetUsersLength()
+        {
+            return m_db.Users.Count();
+        }
+
+        
+        
+        #endregion
         #region AddFunctions
 
         public User AddUser(User p_user)
@@ -72,17 +117,56 @@ namespace RESTApp.DataAccessLayerNameSpace
                 m_db.Groups.Add(p_group);
                 m_db.SaveChanges();
             }
-            catch(Exception)
+            catch(Exception e)
             {
                 return null;
             }
             return p_group;
         }
+        public Match AddMatch(Match p_match)
+        {
+            try
+            {
+                m_db.Matches.Add(p_match);
+                m_db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            return p_match;
+        }
+        public RideRequest AddRideRequest(RideRequest p_request)
+        {
+            try
+            {
+                m_db.RideRequests.Add(p_request);
+                m_db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            return p_request;
+        }
+        public RideUser AddRideUser(RideUser p_rideUser)
+        {
+            try
+            {
+                m_db.RideUsers.Add(p_rideUser);
+                m_db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            return p_rideUser;
+        }
 
         #endregion
 
         #region GetAllFunctions
-        
+
         public List<User> GetAllUsers()
         {
             return m_db.Users.ToList();

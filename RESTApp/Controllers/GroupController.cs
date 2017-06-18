@@ -27,7 +27,7 @@ namespace RESTApp.Controllers
         }
 
         // POST: api/Group
-        public int Post(Group group)
+        public Group Post(Group group)
         {
             //create new group
             //return group uid

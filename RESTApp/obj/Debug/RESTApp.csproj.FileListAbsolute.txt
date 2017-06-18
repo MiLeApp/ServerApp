@@ -174,3 +174,16 @@ C:\Users\User\Source\Repos\ServerApp\RESTApp\bin\Newtonsoft.Json.xml
 C:\Users\User\Source\Repos\ServerApp\RESTApp\bin\System.Net.Http.Formatting.xml
 C:\Users\User\Source\Repos\ServerApp\RESTApp\bin\System.Web.Http.xml
 C:\Users\User\Source\Repos\ServerApp\RESTApp\bin\System.Web.Http.WebHost.xml
+C:\Users\User\Source\Repos\ServerApp\RESTApp\bin\Google.Apis.Core.dll
+C:\Users\User\Source\Repos\ServerApp\RESTApp\bin\Google.Apis.dll
+C:\Users\User\Source\Repos\ServerApp\RESTApp\bin\Google.Apis.PlatformServices.dll
+C:\Users\User\Source\Repos\ServerApp\RESTApp\bin\GoogleMapsAPI.NET.dll
+C:\Users\User\Source\Repos\ServerApp\RESTApp\bin\System.Net.Http.dll
+C:\Users\User\Source\Repos\ServerApp\RESTApp\bin\System.Security.Cryptography.Algorithms.dll
+C:\Users\User\Source\Repos\ServerApp\RESTApp\bin\System.Security.Cryptography.Encoding.dll
+C:\Users\User\Source\Repos\ServerApp\RESTApp\bin\System.Security.Cryptography.Primitives.dll
+C:\Users\User\Source\Repos\ServerApp\RESTApp\bin\System.Security.Cryptography.X509Certificates.dll
+C:\Users\User\Source\Repos\ServerApp\RESTApp\bin\Google.Apis.xml
+C:\Users\User\Source\Repos\ServerApp\RESTApp\bin\Google.Apis.Core.xml
+C:\Users\User\Source\Repos\ServerApp\RESTApp\bin\GoogleMapsAPI.NET.pdb
+C:\Users\User\Source\Repos\ServerApp\RESTApp\bin\GoogleMapsAPI.NET.xml
