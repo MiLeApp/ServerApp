@@ -22,7 +22,7 @@ namespace RESTApp.BL
         private static readonly BLManager m_instance = new BLManager();
 
         DataAccessLayer m_dal = new DataAccessLayer();
-        //private  SqlConnection m_appDBConn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\USERS\YONATANT\DOWNLOADS\SERVERAPP\SERVERAPP\RESTAPP\APP_DATA\RIDEAPPDB.MDF;Integrated Security=True");
+   
         private int m_userIDIndex = 0;
         private int m_groupIDIndex = 0;
         private int m_rideIDIndex = 0;
@@ -118,6 +118,37 @@ namespace RESTApp.BL
             GroupUserChangedEvent(goupID, (int)user.UserId);
 
 
+        }
+
+        public void AddNewGroupUsersList(int goupID, List<string> phoneNums)
+        {
+            RafaelMember curRafaeMember = null;
+            User curUser = null;
+            foreach (string phoneNum in phoneNums)
+            {
+                curRafaeMember = m_dal.GetRafaelMember(phoneNum);
+                if (curRafaeMember != null)
+                {
+                    curUser = m_dal.GetUser(phoneNums);
+                    if (curUser != null)
+                    {
+                        GroupUser grpUser = new GroupUser();
+                        grpUser.GroupId = goupID;
+                        grpUser.UserId = curUser.UserId;
+                        grpUser.Role = curUser.Role;
+                        grpUser.From = curUser.Address;
+                        grpUser.To = m_dal.GetGroup(goupID).To;
+                        grpUser.Matched = 0;
+
+
+                    }
+                    else
+                    {
+                        //Send app join notification
+                    }
+                    
+                }
+            }
         }
 
         public GroupUser GetGroupUser(int groupID, int userId)
