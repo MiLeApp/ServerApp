@@ -74,11 +74,13 @@ namespace RESTApp.BL
         public void UpdateUser(int userID, User userObj)
         {
             //update users table
+            m_dal.UpdateUser(userID, userObj);
         }
 
         public void DeleteUser(int userID)
         {
             //delete from users table
+            m_dal.DeleteUser(userID);
         }
         #endregion
 
@@ -107,11 +109,19 @@ namespace RESTApp.BL
         public void UpdateGroup(int groupID, Group groupObj)
         {
             //update groups table
+            m_dal.UpdateGroups(groupID, groupObj);
         }
 
         public void DeleteGroup(int groupID)
         {
+            List<GroupUser> grpUsers =  m_dal.GetGroupUsers(groupID);
+            foreach (GroupUser grpUser in grpUsers)
+            {
+                m_dal.DeleteGroupUser((int)grpUser.UserId);
+            }
             //delete from groups table
+            m_dal.DeleteGroup(groupID);
+
         }
 
         #endregion
@@ -264,8 +274,8 @@ namespace RESTApp.BL
         #region Ride Methods
         public int AddNewRide(Ride ride)
         {
-
-           // ++m_rideIDIndex;
+            m_dal.AddRide(ride);
+            ++m_rideIDIndex;
             //add new group to DB
             return m_rideIDIndex;
         }
@@ -275,9 +285,9 @@ namespace RESTApp.BL
             Ride newRide = new Ride();
             newRide.RideId = m_rideIDIndex;
             newRide.GroupId = groupId;
-            newRide.DriverId = driverId;
-          //  newRide.Date = m_dal.GetGroup(groupId).Date;
-          //  newRide.Time = m_dal.GetGroup(groupId).Time;
+            newRide.driverId = driverId;
+            newRide.Date = m_dal.GetGroup(groupId).EventTime.Value.Date;
+           // newRide.Time = m_dal.GetGroup(groupId).EventTime.Value.TimeOfDay;
             newRide.Distance = 0;
              
 
@@ -289,6 +299,10 @@ namespace RESTApp.BL
                 RideUser rideUser = new RideUser();
                 rideUser.RideId = newRide.RideId;
                 rideUser.UserId = userId;
+                m_dal.AddRideUser(rideUser);
+
+                //update match status
+                m_dal.UpdateMatchStatus()
 
             }
             return m_rideIDIndex;
@@ -297,24 +311,47 @@ namespace RESTApp.BL
         public int UpdateRide(int driverId, int groupId, List<int> acceptedUsersIds)
         {
             Ride currRide = m_dal.GetRide(driverId, groupId);
-            m_dal.DeleteRideUsers(currRide.RideId);
+            if (currRide != null)
+            {
+                m_dal.DeleteRideUsers(currRide.RideId);
+
+                foreach (int userId in acceptedUsersIds)
+                {
+                    RideUser rideUser = new RideUser();
+                    rideUser.RideId = currRide.RideId;
+                    rideUser.UserId = userId;
+                    m_dal.AddRideUser(rideUser);
+
+                }
+
+                return currRide.RideId;
+            }
+            return -1;
         }
 
         public Ride GetRide(int rideID)
         {
-            Ride rideObj = new Ride();
+           
             //get user data from DB
-            return rideObj;
+            return m_dal.GetRide(rideID);
         }
 
         public void UpdateRide(int rideID, Ride rideObj)
         {
             //update rides table
+            m_dal.UpdateRide(rideID, rideObj);
         }
 
         public void DeleteRide(int rideID)
         {
+            List<RideUser> rideUsers = m_dal.GetAllRideUsers(rideID);
+            foreach (RideUser rideUser in rideUsers)
+            {
+                m_dal.DeleteRideUser((int)rideUser.UserId);
+            }
+
             //delete from groups table
+            m_dal.DeleteRide(rideID);
         }
 
         public int ReceiveRide(int GroupId, int driverId, List<int> acceptedUsersIds)
@@ -409,9 +446,10 @@ namespace RESTApp.BL
             m_dal.AddMatch(newMatch);
             m_dal.UpdateGroupUser(groupId, passenger);
 
-            //SendDriverNotification(groupId, driver, passenger);
+            
         }
-
+        #endregion
+#region Notifications
         private void SendDriversNotification(int groupId, List<GroupUser> grpDrivers)
         {
             List<Match> grpMatches = m_dal.GetMatches(groupId);
@@ -440,7 +478,7 @@ namespace RESTApp.BL
             //send notification
         }
 
-        #endregion
+#endregion    
 
     }
 
