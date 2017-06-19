@@ -127,12 +127,13 @@ namespace RESTApp.BL
 
         }
 
-        public void AddNewGroupUsersList(int goupID, List<string> phoneNums)
+        public int AddNewGroupUsersList(int goupID, List<string> phoneNums)
         {
             RafaelMember curRafaeMember = null;
             User curUser = null;
             bool isListChanged = false;
 
+            int currentGroupLength = m_dal.GetGroupUsers(goupID).Count();
             foreach (string phoneNum in phoneNums)
             {
                 curRafaeMember = m_dal.GetRafaelMember(phoneNum);
@@ -165,6 +166,9 @@ namespace RESTApp.BL
 
             if (isListChanged)
                 GroupUserChangedEvent(goupID, 0);
+
+            int updatedGroupLength = m_dal.GetGroupUsers(goupID).Count();
+            return updatedGroupLength - currentGroupLength;
         }
 
         public GroupUser GetGroupUser(int groupID, int userId)

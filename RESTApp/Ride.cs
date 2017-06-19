@@ -19,5 +19,6 @@ namespace RESTApp
         public Nullable<System.DateTime> Date { get; set; }
         public Nullable<System.DateTime> Time { get; set; }
         public Nullable<int> Distance { get; set; }
+        public Nullable<int> DriverId { get; set; }
     }
 }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="RideDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="RideDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Groups">
           <Key>
             <PropertyRef Name="GroupId" />
@@ -68,6 +68,7 @@
           <Property Name="Date" Type="date" />
           <Property Name="Time" Type="datetime" />
           <Property Name="Distance" Type="int" />
+          <Property Name="DriverId" Type="int" />
         </EntityType>
         <EntityType Name="RideUsers">
           <Key>
@@ -99,8 +100,7 @@
           <EntitySet Name="RideUsers" EntityType="Self.RideUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="RideDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -167,6 +167,7 @@
           <Property Name="Date" Type="DateTime" Precision="0" />
           <Property Name="Time" Type="DateTime" Precision="3" />
           <Property Name="Distance" Type="Int32" />
+          <Property Name="DriverId" Type="Int32" />
         </EntityType>
         <EntityType Name="RideUser">
           <Key>
@@ -266,6 +267,7 @@
           <EntitySetMapping Name="Rides">
             <EntityTypeMapping TypeName="RideDBModel.Ride">
               <MappingFragment StoreEntitySet="Rides">
+                <ScalarProperty Name="DriverId" ColumnName="DriverId" />
                 <ScalarProperty Name="RideId" ColumnName="RideId" />
                 <ScalarProperty Name="GroupId" ColumnName="GroupId" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
