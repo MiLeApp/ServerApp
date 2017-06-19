@@ -21,5 +21,6 @@ namespace RESTApp
         public string To { get; set; }
         public string AdminName { get; set; }
         public Nullable<System.DateTime> ExpireDate { get; set; }
+        public Nullable<System.DateTime> EventTime { get; set; }
     }
 }

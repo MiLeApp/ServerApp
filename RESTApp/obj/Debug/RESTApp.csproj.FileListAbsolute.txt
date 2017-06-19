@@ -303,3 +303,4 @@ E:\RideApp\Repository\ServerApp2\RESTApp\bin\System.Web.Http.xml
 E:\RideApp\Repository\ServerApp2\RESTApp\bin\System.Web.Http.WebHost.xml
 E:\RideApp\Repository\ServerApp2\RESTApp\obj\Debug\RESTApp.dll
 E:\RideApp\Repository\ServerApp2\RESTApp\obj\Debug\RESTApp.pdb
+C:\Users\User\Documents\getting-started-dotnet-master (1)\getting-started-dotnet-master\aspnet\ServerApp\RESTApp\obj\Debug\RESTApp.csprojResolveAssemblyReference.cache
