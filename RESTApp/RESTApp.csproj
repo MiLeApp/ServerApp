@@ -134,6 +134,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="BL\BLManager.cs" />
+    <Compile Include="BL\NewGroupUserNotification.cs" />
     <Compile Include="Controllers\FireBaseMessageController.cs" />
     <Compile Include="Controllers\GoogleApiController.cs" />
     <Compile Include="Controllers\GroupController.cs" />

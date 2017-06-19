@@ -29,6 +29,7 @@ namespace RESTApp.BL
 
         private enum eUserRole { eDriver = 0, ePassenger = 1, eDeclined = 2, eUnknown = 3 }
         private enum eMatchStatus { eNew = 0, eApproved = 1, eDeclined = 2, eUnknown = 3 }
+        private enum eUserNotification { eNewGrpUser=0, eNewPassenger=1}
 
         //   private static string SERVER_KEY = "AAAAK4i1ZVc:APA91bFiG1VeSR7pVUpOvvqdspp4BlPxO46uvPB7uoKal8evatTr0-qQ1L_S6phJA74IEPff4Pa7FIT-xiNDIdxl_T0NSNO9HeIm1BlW1_AmaTR_rsCZSUs4doF0oPOFAModJRRYqfcU";
         //     private static string SENDER_ID = "186977183063";
@@ -170,26 +171,27 @@ namespace RESTApp.BL
             GroupUserChangedEvent(groupID, userId);
         }
 
-        public List<GroupUser> GetAllGroupUsers(int groupId)
+        //public List<GroupUser> GetAllGroupUsers(int groupId)
+        //{
+        //    List<GroupUser> grpUsers = m_dal.GetAllGroupUsers();
+
+        //    foreach (GroupUser grpUser in grpUsers)
+        //    {
+
+        //        if (grpUser.GroupId != groupId)
+        //        {
+        //            grpUsers.Remove(grpUser);
+        //        }
+
+        //    }
+
+        //    return grpUsers;
+        //}
+
+        public List<GroupUser> GetAllGroupPassengers(List<GroupUser> allGrpUsers)
         {
-            List<GroupUser> grpUsers = m_dal.GetAllGroupUsers();
-
-            foreach (GroupUser grpUser in grpUsers)
-            {
-
-                if (grpUser.GroupId != groupId)
-                {
-                    grpUsers.Remove(grpUser);
-                }
-
-            }
-
-            return grpUsers;
-        }
-
-        public List<GroupUser> GetAllGroupPassengers(int groupId)
-        {
-            List<GroupUser> grpUsers = GetAllGroupUsers(groupId);
+            //List<GroupUser> grpUsers = m_dal.GetAllGroupUsers(groupId);
+            List<GroupUser> grpUsers = new List<GroupUser>(allGrpUsers.Count);
 
             foreach (GroupUser grpUser in grpUsers)
             {
@@ -205,11 +207,12 @@ namespace RESTApp.BL
         }
 
 
-        public List<GroupUser> GetAllGroupUnMatchedPassengers(int groupId)
+        public List<GroupUser> GetAllGroupUnMatchedPassengers(List<GroupUser> allGrpUsers)
         {
-            List<GroupUser> grpUsers = GetAllGroupUsers(groupId);
+            List<GroupUser> grpUsers = new List<GroupUser>(allGrpUsers.Count);
 
-            foreach (GroupUser grpUser in grpUsers)
+
+            foreach (GroupUser grpUser in allGrpUsers)
             {
 
                 if (grpUser.Role != (int)eUserRole.ePassenger ||
@@ -223,11 +226,12 @@ namespace RESTApp.BL
             return grpUsers;
         }
 
-        public List<GroupUser> GetAllGroupDrivers(int groupId)
+        public List<GroupUser> GetAllGroupDrivers(List<GroupUser> allGrpUsers)
         {
-            List<GroupUser> grpUsers = GetAllGroupUsers(groupId);
+            //List<GroupUser> grpUsers = GetAllGroupUsers(groupId);
+            List<GroupUser> grpUsers = new List<GroupUser>(allGrpUsers.Count);
 
-            foreach (GroupUser grpUser in grpUsers)
+            foreach (GroupUser grpUser in allGrpUsers)
             {
 
                 if (grpUser.Role != (int)eUserRole.eDriver)
