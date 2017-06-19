@@ -81,10 +81,12 @@
             <PropertyRef Name="UserId" />
           </Key>
           <Property Name="UserId" Type="int" Nullable="false" />
-          <Property Name="IdFB" Type="int" />
           <Property Name="PhoneNum" Type="text" />
           <Property Name="NickName" Type="text" />
           <Property Name="Mileage" Type="int" />
+          <Property Name="Address" Type="text" />
+          <Property Name="Role" Type="int" />
+          <Property Name="IdFB" Type="text" />
         </EntityType>
         <EntityContainer Name="RideAppDBModelStoreContainer">
           <EntitySet Name="Groups" EntityType="Self.Groups" Schema="dbo" store:Type="Tables" />
@@ -177,10 +179,12 @@
             <PropertyRef Name="UserId" />
           </Key>
           <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="IdFB" Type="Int32" />
           <Property Name="PhoneNum" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="NickName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Mileage" Type="Int32" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Role" Type="Int32" />
+          <Property Name="IdFB" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityContainer Name="RideAppDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Groups" EntityType="Self.Group" />
@@ -280,10 +284,12 @@
             <EntityTypeMapping TypeName="RideAppDBModel.User">
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="IdFB" ColumnName="IdFB" />
                 <ScalarProperty Name="PhoneNum" ColumnName="PhoneNum" />
                 <ScalarProperty Name="NickName" ColumnName="NickName" />
                 <ScalarProperty Name="Mileage" ColumnName="Mileage" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="IdFB" ColumnName="IdFB" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

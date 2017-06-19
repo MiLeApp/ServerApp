@@ -15,11 +15,11 @@ namespace RESTApp
     public partial class User
     {
         public int UserId { get; set; }
-        public Nullable<int> IdFB { get; set; }
         public string PhoneNum { get; set; }
         public string NickName { get; set; }
         public Nullable<int> Mileage { get; set; }
         public string Address { get; set; }
-        public int Role { get; set; }
+        public Nullable<int> Role { get; set; }
+        public string IdFB { get; set; }
     }
 }
