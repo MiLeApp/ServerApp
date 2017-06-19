@@ -29,7 +29,7 @@ namespace RESTApp.BL
 
         private enum eUserRole { eDriver = 0, ePassenger = 1, eDeclined = 2, eUnknown = 3 }
         private enum eMatchStatus { eNew = 0, eApproved = 1, eDeclined = 2, eUnknown = 3 }
-        private enum eUserNotification { eNewGrpUser=0, eNewPassenger=1}
+        private enum eUserNotification { eNewGrpUser=0, ePassengersList=1}
 
         //   private static string SERVER_KEY = "AAAAK4i1ZVc:APA91bFiG1VeSR7pVUpOvvqdspp4BlPxO46uvPB7uoKal8evatTr0-qQ1L_S6phJA74IEPff4Pa7FIT-xiNDIdxl_T0NSNO9HeIm1BlW1_AmaTR_rsCZSUs4doF0oPOFAModJRRYqfcU";
         //     private static string SENDER_ID = "186977183063";
@@ -111,12 +111,12 @@ namespace RESTApp.BL
         #endregion
 
         #region GroupUser Methods
-        public void AddNewGroupUser(int goupID, GroupUser user)
+        public void AddNewGroupUser(int groupID, GroupUser user)
         {
-
+            m_dal.AddGroupUser(user);
 
             //add new group user to DB
-            GroupUserChangedEvent(goupID, (int)user.UserId);
+            GroupUserChangedEvent(groupID, (int)user.UserId);
 
 
         }
@@ -125,6 +125,8 @@ namespace RESTApp.BL
         {
             RafaelMember curRafaeMember = null;
             User curUser = null;
+            bool isListChanged = false;
+
             foreach (string phoneNum in phoneNums)
             {
                 curRafaeMember = m_dal.GetRafaelMember(phoneNum);
@@ -141,6 +143,10 @@ namespace RESTApp.BL
                         grpUser.To = m_dal.GetGroup(goupID).To;
                         grpUser.Matched = 0;
 
+                        m_dal.AddGroupUser(grpUser);
+
+                        isListChanged = true;
+                        
 
                     }
                     else
@@ -150,6 +156,9 @@ namespace RESTApp.BL
 
                 }
             }
+
+            if (isListChanged)
+                GroupUserChangedEvent(goupID, 0);
         }
 
         public GroupUser GetGroupUser(int groupID, int userId)
@@ -193,12 +202,12 @@ namespace RESTApp.BL
             //List<GroupUser> grpUsers = m_dal.GetAllGroupUsers(groupId);
             List<GroupUser> grpUsers = new List<GroupUser>(allGrpUsers.Count);
 
-            foreach (GroupUser grpUser in grpUsers)
+            foreach (GroupUser grpUser in allGrpUsers)
             {
 
-                if (grpUser.Role != (int)eUserRole.ePassenger)
+                if (grpUser.Role == (int)eUserRole.ePassenger)
                 {
-                    grpUsers.Remove(grpUser);
+                    grpUsers.Add(grpUser);
                 }
 
             }
@@ -215,10 +224,10 @@ namespace RESTApp.BL
             foreach (GroupUser grpUser in allGrpUsers)
             {
 
-                if (grpUser.Role != (int)eUserRole.ePassenger ||
-                    (grpUser.Role == (int)eUserRole.ePassenger && grpUser.Matched == 1))
+                if (grpUser.Role == (int)eUserRole.ePassenger &&
+                    ( grpUser.Matched == 0))
                 {
-                    grpUsers.Remove(grpUser);
+                    grpUsers.Add(grpUser);
                 }
 
             }
@@ -234,9 +243,9 @@ namespace RESTApp.BL
             foreach (GroupUser grpUser in allGrpUsers)
             {
 
-                if (grpUser.Role != (int)eUserRole.eDriver)
+                if (grpUser.Role == (int)eUserRole.eDriver)
                 {
-                    grpUsers.Remove(grpUser);
+                    grpUsers.Add(grpUser);
                 }
 
             }
@@ -282,8 +291,9 @@ namespace RESTApp.BL
 
         private void RunMatchAlgorithm(int groupId)
         {
-            List<GroupUser> grpUnmatchedPassengers = GetAllGroupUnMatchedPassengers(groupId);
-            List<GroupUser> grpDrivers = GetAllGroupDrivers(groupId);
+            List<GroupUser> allGroupUsers = m_dal.GetGroupUsers(groupId);
+            List<GroupUser> grpUnmatchedPassengers = GetAllGroupUnMatchedPassengers(allGroupUsers);
+            List<GroupUser> grpDrivers = GetAllGroupDrivers(allGroupUsers);
             if (grpDrivers.Count > 0 && grpUnmatchedPassengers.Count > 0)
             {
                 foreach (GroupUser grpPassenger in grpUnmatchedPassengers)
@@ -300,6 +310,8 @@ namespace RESTApp.BL
 
                 }
             }
+
+            SendDriversNotification(groupId);
         }
 
 
@@ -347,16 +359,26 @@ namespace RESTApp.BL
             m_dal.AddMatch(newMatch);
             m_dal.UpdateGroupUser(groupId, passenger);
 
-            SendDriverNotification(groupId, driver, passenger);
+            //SendDriverNotification(groupId, driver, passenger);
         }
 
-        private void SendDriverNotification(int groupId, GroupUser driver, GroupUser passenger)
+        private void SendDriversNotification(int groupId)
         {
+            List<Match> grpMatches = m_dal.GetAllMatches(groupId);
 
-        }
+            UserNotification driverNotification = new UserNotification();
+            driverNotification.OpCode = (int)eUserNotification.ePassengersList;
+ 
+            foreach (Match match in grpMatches)
+            {
+                driverNotification.NotificationObj.Add(match);
+            }
+
+
+
 
         #endregion
 
-    }
+        }
 
 }
