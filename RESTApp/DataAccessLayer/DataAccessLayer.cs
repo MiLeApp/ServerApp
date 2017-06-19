@@ -506,6 +506,21 @@ namespace RESTApp.DataAccessLayerNameSpace
             }
         }
 
+        public List<Match> GetMatches (int p_groupId)
+        {
+
+            try
+            {
+                List<Match> matches = m_db.Matches
+                    .Where(match => match.GroupId == p_groupId).ToList();
+                return matches;
+            }
+            catch(Exception)
+            {
+                return null;
+            }
+        }
+
         public RideRequest GetRideRequest(int p_userId)
         {
             try
