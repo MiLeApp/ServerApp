@@ -301,6 +301,5 @@ E:\RideApp\Repository\ServerApp2\RESTApp\bin\Newtonsoft.Json.xml
 E:\RideApp\Repository\ServerApp2\RESTApp\bin\System.Net.Http.Formatting.xml
 E:\RideApp\Repository\ServerApp2\RESTApp\bin\System.Web.Http.xml
 E:\RideApp\Repository\ServerApp2\RESTApp\bin\System.Web.Http.WebHost.xml
-E:\RideApp\Repository\ServerApp2\RESTApp\obj\Debug\RESTApp.csprojResolveAssemblyReference.cache
 E:\RideApp\Repository\ServerApp2\RESTApp\obj\Debug\RESTApp.dll
 E:\RideApp\Repository\ServerApp2\RESTApp\obj\Debug\RESTApp.pdb

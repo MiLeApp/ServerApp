@@ -262,12 +262,42 @@ namespace RESTApp.BL
         #endregion
 
         #region Ride Methods
-        public int AddNewRide(Ride group)
+        public int AddNewRide(Ride ride)
         {
 
-            ++m_rideIDIndex;
+           // ++m_rideIDIndex;
             //add new group to DB
             return m_rideIDIndex;
+        }
+
+        public int AddNewRide(int driverId, int groupId, List<int> acceptedUsersIds)
+        {
+            Ride newRide = new Ride();
+            newRide.RideId = m_rideIDIndex;
+            newRide.GroupId = groupId;
+            newRide.DriverId = driverId;
+          //  newRide.Date = m_dal.GetGroup(groupId).Date;
+          //  newRide.Time = m_dal.GetGroup(groupId).Time;
+            newRide.Distance = 0;
+             
+
+            m_dal.AddRide(newRide);
+            ++m_rideIDIndex;
+
+            foreach (int userId in acceptedUsersIds)
+            {
+                RideUser rideUser = new RideUser();
+                rideUser.RideId = newRide.RideId;
+                rideUser.UserId = userId;
+
+            }
+            return m_rideIDIndex;
+        }
+
+        public int UpdateRide(int driverId, int groupId, List<int> acceptedUsersIds)
+        {
+            Ride currRide = m_dal.GetRide(driverId, groupId);
+            m_dal.DeleteRideUsers(currRide.RideId);
         }
 
         public Ride GetRide(int rideID)
@@ -289,6 +319,15 @@ namespace RESTApp.BL
 
         public int ReceiveRide(int GroupId, int driverId, List<int> acceptedUsersIds)
         {
+            Ride curRide = m_dal.GetRide(GroupId, driverId);
+            if (curRide == null)
+            {
+                AddNewRide(GroupId, driverId, acceptedUsersIds);
+            }
+            else
+            {
+                UpdateRide(GroupId, driverId, acceptedUsersIds);
+            }
             return 0;
         }
         #endregion
@@ -390,7 +429,7 @@ namespace RESTApp.BL
                     {
                         GroupUser grpUser = m_dal.GetGroupUser((int)match.UserId);
                         driverNotification.NotificationObj.Add(grpUser);                     
-                      //  m_dal.UpdateMatches(match, (int)eMatchStatus.eSentForApproval);
+                        m_dal.UpdateMatchStatus(match, (int)eMatchStatus.eSentForApproval);
                     }
                     
                 }
