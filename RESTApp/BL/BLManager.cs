@@ -364,18 +364,18 @@ namespace RESTApp.BL
 
         private void SendDriversNotification(int groupId)
         {
-            List<Match> grpMatches = m_dal.GetAllMatches(groupId);
+            List<Match> grpMatches = m_dal.GetMatches(groupId);
 
             UserNotification driverNotification = new UserNotification();
             driverNotification.OpCode = (int)eUserNotification.ePassengersList;
- 
+
             foreach (Match match in grpMatches)
             {
                 driverNotification.NotificationObj.Add(match);
             }
 
 
-
+        }
 
         #endregion
 
