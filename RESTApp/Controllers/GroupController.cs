@@ -25,6 +25,7 @@ namespace RESTApp.Controllers
         {
             return BLManager.Instance.GetGroup(id);
         }
+        
 
         // POST: api/Group
         public Group Post(Group group)
