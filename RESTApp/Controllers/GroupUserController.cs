@@ -29,9 +29,12 @@ namespace RESTApp.Controllers
 
         // POST: api/Person
         //Stam
-        public void Post(int groupId, GroupUser userObj)
+
+        // POST: api/Person
+        //Stam
+        public void Post(int groupId, List<string> phoneNums)
         {
-            BLManager.Instance.AddNewGroupUser(groupId, userObj);
+            BLManager.Instance.AddNewGroupUsersList(groupId, phoneNums);
         }
 
         // PUT: api/Person/5

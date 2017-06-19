@@ -120,6 +120,37 @@ namespace RESTApp.BL
 
         }
 
+        public void AddNewGroupUsersList(int goupID, List<string> phoneNums)
+        {
+            RafaelMember curRafaeMember = null;
+            User curUser = null;
+            foreach (string phoneNum in phoneNums)
+            {
+                curRafaeMember = m_dal.GetRafaelMember(phoneNum);
+                if (curRafaeMember != null)
+                {
+                    curUser = m_dal.GetUser(phoneNum);
+                    if (curUser != null)
+                    {
+                        GroupUser grpUser = new GroupUser();
+                        grpUser.GroupId = goupID;
+                        grpUser.UserId = curUser.UserId;
+                        grpUser.Role = curUser.Role;
+                        grpUser.From = curUser.Address;
+                        grpUser.To = m_dal.GetGroup(goupID).To;
+                        grpUser.Matched = 0;
+
+
+                    }
+                    else
+                    {
+                        //Send app join notification
+                    }
+
+                }
+            }
+        }
+
         public GroupUser GetGroupUser(int groupID, int userId)
         {
             GroupUser groupObj = new GroupUser();
