@@ -390,7 +390,7 @@ namespace RESTApp.BL
                     {
                         GroupUser grpUser = m_dal.GetGroupUser((int)match.UserId);
                         driverNotification.NotificationObj.Add(grpUser);                     
-                     //   m_dal.UpdateMatchStatus(match, (int)eMatchStatus.eSentForApproval);
+                      //  m_dal.UpdateMatches(match, (int)eMatchStatus.eSentForApproval);
                     }
                     
                 }
