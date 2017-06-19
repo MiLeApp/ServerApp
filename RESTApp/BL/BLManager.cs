@@ -93,9 +93,13 @@ namespace RESTApp.BL
 
         public Group GetGroup(int groupID)
         {
-            Group groupObj = new Group();
             //get user data from DB
             return m_dal.GetGroup(groupID);
+        }
+
+        public List<Group> GetUserGroups(int p_userId)
+        {
+            return m_dal.GetUserGroups(p_userId);
         }
 
         public void UpdateGroup(int groupID, Group groupObj)

@@ -480,6 +480,26 @@ namespace RESTApp.DataAccessLayerNameSpace
             }
         }
 
+        public List<Group> GetUserGroups(int p_userId)
+        {
+            try
+            {
+                List<int> userGroupsIdsList =
+                    m_db.GroupUsers.Where(groupUser => groupUser.UserId == p_userId)
+                                        .Select(groupUser => groupUser.GroupId).ToList();
+                List<Group> userGroupsList = new List<Group>();
+                foreach(var id in userGroupsIdsList)
+                {
+                    userGroupsList.Add(GetGroup(id));
+                }
+                return userGroupsList;
+            }
+            catch(Exception)
+            {
+                return null;
+            }
+        }
+
         public Group GetGroup(int p_groupId)
         {
             try
