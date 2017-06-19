@@ -280,6 +280,11 @@ namespace RESTApp.BL
         {
             //delete from groups table
         }
+
+        public int ReceiveRide(int GroupId, int driverId, List<int> acceptedUsersIds)
+        {
+            return 0;
+        }
         #endregion
 
         #region Matching Logic
@@ -374,7 +379,7 @@ namespace RESTApp.BL
                 driverNotification.NotificationObj.Add(match);
             }
 
-
+            //send notification
         }
 
         #endregion

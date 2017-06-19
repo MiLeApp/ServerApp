@@ -24,10 +24,10 @@ namespace RESTApp.Controllers
         }
 
         // POST: api/Ride
-        public int Post(Ride ride)
+        public int Post(int GroupId, int driverId, List<int>acceptedUsersIds)
         {
             //create ride return id
-            return BLManager.Instance.AddNewRide(ride);
+            return BLManager.Instance.ReceiveRide(GroupId, driverId, acceptedUsersIds);
         }
 
         // PUT: api/Ride/5
