@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
+using RESTApp;
 namespace RESTApp.DataAccessLayerNameSpace
 {
     public class DataAccessLayer
@@ -15,7 +15,7 @@ namespace RESTApp.DataAccessLayerNameSpace
             {
                 return m_db.Groups.Count();
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return 0;
             }
@@ -28,7 +28,7 @@ namespace RESTApp.DataAccessLayerNameSpace
             {
                 return m_db.GroupUsers.Count();
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return 0;
             }
@@ -41,7 +41,7 @@ namespace RESTApp.DataAccessLayerNameSpace
             {
                 return m_db.Matches.Count();
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return 0;
             }
@@ -54,7 +54,7 @@ namespace RESTApp.DataAccessLayerNameSpace
             {
                 return m_db.RafaelMembers.Count();
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return 0;
             }
@@ -67,7 +67,7 @@ namespace RESTApp.DataAccessLayerNameSpace
             {
                 return m_db.RideRequests.Count();
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return 0;
             }
@@ -80,7 +80,7 @@ namespace RESTApp.DataAccessLayerNameSpace
             {
                 return m_db.Rides.Count();
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return 0;
             }
@@ -93,7 +93,7 @@ namespace RESTApp.DataAccessLayerNameSpace
             {
                 return m_db.RideUsers.Count();
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return 0;
             }
@@ -106,7 +106,7 @@ namespace RESTApp.DataAccessLayerNameSpace
             {
                 return m_db.Users.Count();
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return 0;
             }
@@ -125,7 +125,7 @@ namespace RESTApp.DataAccessLayerNameSpace
                 m_db.Users.Add(p_user);
                 m_db.SaveChanges();
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return null;
             }
@@ -181,7 +181,7 @@ namespace RESTApp.DataAccessLayerNameSpace
                 m_db.Groups.Add(p_group);
                 m_db.SaveChanges();
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return null;
             }
@@ -413,7 +413,6 @@ namespace RESTApp.DataAccessLayerNameSpace
             {
                 RideUser rideUser = m_db.RideUsers
                     .First(rideUserRecord => rideUserRecord.RideId == p_rideId);
-                rideUser.Role = p_rideUser.Role;
                 rideUser.UserId = p_rideUser.UserId;
                 m_db.SaveChanges();
                 return rideUser;
@@ -712,7 +711,7 @@ namespace RESTApp.DataAccessLayerNameSpace
 
         #region Members
 
-        private RideAppDBEntities m_db = new RideAppDBEntities();
+        private RideDBEntities m_db = new RideDBEntities();
 
         #endregion
 

@@ -22,14 +22,16 @@ namespace RESTApp.BL
         private static readonly BLManager m_instance = new BLManager();
 
         DataAccessLayer m_dal = new DataAccessLayer();
+        FireBaseAccessLayer m_fbAccess = new FireBaseAccessLayer();
         //private  SqlConnection m_appDBConn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\USERS\YONATANT\DOWNLOADS\SERVERAPP\SERVERAPP\RESTAPP\APP_DATA\RIDEAPPDB.MDF;Integrated Security=True");
         private int m_userIDIndex = 0;
         private int m_groupIDIndex = 0;
         private int m_rideIDIndex = 0;
 
         private enum eUserRole { eDriver = 0, ePassenger = 1, eDeclined = 2, eUnknown = 3 }
-        private enum eMatchStatus { eNew = 0, eApproved = 1, eDeclined = 2, eUnknown = 3 }
+        private enum eMatchStatus { eNew = 0, eSentForApproval = 1, eApproved = 2, eDeclined = 3, eUnknown = 4 }
         private enum eUserNotification { eNewGrpUser = 0, ePassengersList = 1 }
+        private enum eGroupType {eOneTimeEvent=0, eCompany=1, eGroup=2 }
 
         //   private static string SERVER_KEY = "AAAAK4i1ZVc:APA91bFiG1VeSR7pVUpOvvqdspp4BlPxO46uvPB7uoKal8evatTr0-qQ1L_S6phJA74IEPff4Pa7FIT-xiNDIdxl_T0NSNO9HeIm1BlW1_AmaTR_rsCZSUs4doF0oPOFAModJRRYqfcU";
         //     private static string SENDER_ID = "186977183063";
@@ -260,13 +262,42 @@ namespace RESTApp.BL
         #endregion
 
         #region Ride Methods
-        public int AddNewRide(Ride group)
+        public int AddNewRide(Ride ride)
         {
 
-            ++m_rideIDIndex;
+           // ++m_rideIDIndex;
             //add new group to DB
             return m_rideIDIndex;
         }
+
+        public int AddNewRide(int driverId, int groupId, List<int> acceptedUsersIds)
+        {
+            Ride newRide = new Ride();
+            newRide.RideId = m_rideIDIndex;
+            newRide.GroupId = groupId;
+          //  newRide.DriverId = driverId;
+          //  newRide.Date = m_dal.GetGroup(groupId).Date;
+          //  newRide.Time = m_dal.GetGroup(groupId).Time;
+            newRide.Distance = 0;
+             
+
+            m_dal.AddRide(newRide);
+            ++m_rideIDIndex;
+
+            foreach (int userId in acceptedUsersIds)
+            {
+                RideUser rideUser = new RideUser();
+                rideUser.RideId = newRide.RideId;
+              //  rideUser.UserId = userId;
+
+            }
+            return m_rideIDIndex;
+        }
+
+        //public int UpdateRide(int driverId, int groupId, List<int> acceptedUsersIds)
+        //{
+        //    m_dal.GetRide(driverId, groupId);
+        //}
 
         public Ride GetRide(int rideID)
         {
@@ -287,6 +318,15 @@ namespace RESTApp.BL
 
         public int ReceiveRide(int GroupId, int driverId, List<int> acceptedUsersIds)
         {
+          //  Ride curRide = m_dal.GetRide(GroupId, driverId);
+            //if (curRide == null)
+            //{
+            //    AddNewRide(GroupId, driverId, acceptedUsersIds);
+            //}
+            //else
+            //{
+            //    UpdateRide(GroupId, driverId, acceptedUsersIds);
+            //}
             return 0;
         }
         #endregion
@@ -320,7 +360,7 @@ namespace RESTApp.BL
                 }
             }
 
-            SendDriversNotification(groupId);
+            SendDriversNotification(groupId, grpDrivers);
         }
 
 
@@ -371,16 +411,29 @@ namespace RESTApp.BL
             //SendDriverNotification(groupId, driver, passenger);
         }
 
-        private void SendDriversNotification(int groupId)
+        private void SendDriversNotification(int groupId, List<GroupUser> grpDrivers)
         {
             List<Match> grpMatches = m_dal.GetMatches(groupId);
 
             UserNotification driverNotification = new UserNotification();
             driverNotification.OpCode = (int)eUserNotification.ePassengersList;
+            driverNotification.Title = "You have new ride ";
 
-            foreach (Match match in grpMatches)
+            foreach (GroupUser driver in grpDrivers)
             {
-                driverNotification.NotificationObj.Add(match);
+                driverNotification.ReceiverFBId = m_dal.GetUser((int)driver.UserId).IdFB;
+                foreach (Match match in grpMatches)
+                {
+                    if (match.DriverId == driver.UserId && match.MatchStatus == (int)eMatchStatus.eNew)
+                    {
+                        GroupUser grpUser = m_dal.GetGroupUser((int)match.UserId);
+                        driverNotification.NotificationObj.Add(grpUser);                     
+                        m_dal.UpdateMatchStatus(match, (int)eMatchStatus.eSentForApproval);
+                    }
+                    
+                }
+                if (driverNotification.NotificationObj.Count > 0)
+                    m_fbAccess.PushNotification(driverNotification);
             }
 
             //send notification

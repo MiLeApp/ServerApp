@@ -15,7 +15,7 @@ namespace RESTApp
     public partial class RideUser
     {
         public int RideId { get; set; }
-        public string UserId { get; set; }
-        public Nullable<int> Role { get; set; }
+        public Nullable<int> DriverId { get; set; }
+        public Nullable<int> UserId { get; set; }
     }
 }

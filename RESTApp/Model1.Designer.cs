@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\User\Documents\getting-started-dotnet-master (1)\getting-started-dotnet-master\aspnet\ServerApp\RESTApp\DataModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\User\Documents\getting-started-dotnet-master (1)\getting-started-dotnet-master\aspnet\ServerApp\RESTApp\Model1.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
