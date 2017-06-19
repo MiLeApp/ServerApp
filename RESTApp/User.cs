@@ -19,5 +19,7 @@ namespace RESTApp
         public string PhoneNum { get; set; }
         public string NickName { get; set; }
         public Nullable<int> Mileage { get; set; }
+        public string Address { get; set; }
+        public int Role { get; set; }
     }
 }

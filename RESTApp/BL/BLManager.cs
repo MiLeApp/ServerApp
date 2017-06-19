@@ -22,7 +22,7 @@ namespace RESTApp.BL
         private static readonly BLManager m_instance = new BLManager();
 
         DataAccessLayer m_dal = new DataAccessLayer();
-   
+        //private  SqlConnection m_appDBConn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\USERS\YONATANT\DOWNLOADS\SERVERAPP\SERVERAPP\RESTAPP\APP_DATA\RIDEAPPDB.MDF;Integrated Security=True");
         private int m_userIDIndex = 0;
         private int m_groupIDIndex = 0;
         private int m_rideIDIndex = 0;
@@ -129,7 +129,7 @@ namespace RESTApp.BL
                 curRafaeMember = m_dal.GetRafaelMember(phoneNum);
                 if (curRafaeMember != null)
                 {
-                    curUser = m_dal.GetUser(phoneNums);
+                    curUser = m_dal.GetUser(phoneNum);
                     if (curUser != null)
                     {
                         GroupUser grpUser = new GroupUser();
@@ -146,7 +146,7 @@ namespace RESTApp.BL
                     {
                         //Send app join notification
                     }
-                    
+
                 }
             }
         }

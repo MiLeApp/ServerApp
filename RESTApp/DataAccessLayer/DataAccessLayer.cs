@@ -220,6 +220,8 @@ namespace RESTApp.DataAccessLayerNameSpace
                 user.Mileage = p_user.Mileage;
                 user.NickName = p_user.NickName;
                 user.PhoneNum = p_user.PhoneNum;
+                user.Address = p_user.Address;
+                user.Role = p_user.Role;
                 m_db.SaveChanges();
                 return user;
             }
@@ -359,6 +361,19 @@ namespace RESTApp.DataAccessLayerNameSpace
             }
         }
 
+        public User GetUser(string p_phoneNum)
+        {
+            try
+            {
+                User user = m_db.Users.First(userRecord => userRecord.PhoneNum == p_phoneNum);
+                return user;
+            }
+            catch(Exception)
+            {
+                return null;
+            }
+        }
+
         public Ride GetRide(int p_rideId)
         {
             try
@@ -439,8 +454,22 @@ namespace RESTApp.DataAccessLayerNameSpace
                 return null;
             }
         }
-        
+        public RafaelMember GetRafaelMember(string p_phoneNum)
+        {
+            try
+            {
+                RafaelMember member = m_db.RafaelMembers
+                    .First(memberRecord => memberRecord.PhoneNum == p_phoneNum);
+                return member;
+            }
+            catch(Exception)
+            {
+                return null;
+            }
+        }
+
         #endregion
+  
 
         #region DeleteFunctions
 
