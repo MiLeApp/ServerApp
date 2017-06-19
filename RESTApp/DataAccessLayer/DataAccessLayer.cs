@@ -451,13 +451,28 @@ namespace RESTApp.DataAccessLayerNameSpace
             }
         }
 
-        public GroupUser GetGroupUser(int p_groupUserId)
+        public GroupUser GetGroupUser(int p_userId)
         {
             try
             {
-                GroupUser groupUser = m_db.GroupUsers
-                    .First(groupUserRecord => groupUserRecord.GroupId == p_groupUserId);
-                return groupUser;
+                GroupUser user = m_db.GroupUsers
+                    .First(groupUserRecord => groupUserRecord.UserId == p_userId);
+                return user;
+            }
+            catch(Exception)
+            {
+                return null;
+            }
+        }
+
+        public List<GroupUser> GetGroupUsers(int p_groupId)
+        {
+            try
+            {
+                List<GroupUser> groupUsersList =
+                    m_db.GroupUsers.Where(groupRecord => groupRecord.GroupId == p_groupId).ToList();
+                
+                return groupUsersList;
             }
             catch(Exception)
             {
