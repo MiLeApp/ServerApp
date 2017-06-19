@@ -466,6 +466,20 @@ namespace RESTApp.DataAccessLayerNameSpace
             }
         }
 
+        public Ride GetRide(int p_driverId, int p_groupId)
+        {
+            try
+            {
+                Ride ride = m_db.Rides.
+                    First(rideRecord => rideRecord.DriverId == p_driverId && rideRecord.GroupId == p_groupId);
+                return ride;
+            }
+            catch(Exception)
+            {
+                return null;
+            }
+        }
+
         public GroupUser GetGroupUser(int p_userId)
         {
             try
@@ -570,19 +584,21 @@ namespace RESTApp.DataAccessLayerNameSpace
             }
         }
 
-        public RideUser GetRideUser(int p_rideId)
+        public List<RideUser> GetRideUsers(int p_rideId)
         {
             try
             {
-                RideUser rideUser = m_db.RideUsers
-                    .First(rideUserRecord => rideUserRecord.RideId == p_rideId);
-                return rideUser;
+                List<RideUser> rideUsers = m_db.RideUsers
+                    .Where(rideUserRecord => rideUserRecord.RideId == p_rideId).ToList();
+                return rideUsers;
             }
             catch(Exception)
             {
                 return null;
             }
         }
+
+        
         public RafaelMember GetRafaelMember(string p_phoneNum)
         {
             try
@@ -629,6 +645,23 @@ namespace RESTApp.DataAccessLayerNameSpace
             catch(Exception)
             {
                 return null;
+            }
+        }
+
+        public void DeleteRideUsers(int p_rideId)
+        {
+            try
+            {
+                List<RideUser> rideUsers = GetRideUsers(p_rideId);
+                foreach(RideUser rideUser in rideUsers)
+                {
+                    m_db.RideUsers.Remove(rideUser);
+                }
+                m_db.SaveChanges();
+            }
+            catch(Exception)
+            {
+               
             }
         }
 
@@ -692,20 +725,20 @@ namespace RESTApp.DataAccessLayerNameSpace
             }
         }
 
-        public RideUser DeleteRideUser(int p_rideId)
-        {
-            try
-            {
-                RideUser rideUser = GetRideUser(p_rideId);
-                m_db.RideUsers.Remove(rideUser);
-                m_db.SaveChanges();
-                return rideUser;
-            }
-            catch
-            {
-                return null;
-            }
-        }
+        //public RideUser DeleteRideUser(int p_rideId)
+        //{
+        //    try
+        //    {
+        //        RideUser rideUser = GetRideUser(p_rideId);
+        //        m_db.RideUsers.Remove(rideUser);
+        //        m_db.SaveChanges();
+        //        return rideUser;
+        //    }
+        //    catch
+        //    {
+        //        return null;
+        //    }
+        //}
         
         #endregion
 

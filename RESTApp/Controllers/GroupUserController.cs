@@ -32,9 +32,9 @@ namespace RESTApp.Controllers
 
         // POST: api/Person
         //Stam
-        public void Post(int groupId, List<string> phoneNums)
+        public int Post(int groupId, Contacts phoneNums)
         {
-            BLManager.Instance.AddNewGroupUsersList(groupId, phoneNums);
+           return BLManager.Instance.AddNewGroupUsersList(groupId, phoneNums.PhoneNumbers);
         }
 
         // PUT: api/Person/5
@@ -47,6 +47,11 @@ namespace RESTApp.Controllers
         public void Delete(int groupId, int userId)
         {
             BLManager.Instance.DeleteGroupUser(groupId, userId);
+        }
+
+        public class Contacts
+        {
+            public List<string> PhoneNumbers { get; set; }
         }
     }
 }
