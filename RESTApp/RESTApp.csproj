@@ -142,6 +142,7 @@
     <Compile Include="Controllers\RideController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DataAccessLayer\DataAccessLayer.cs" />
+    <Compile Include="DataAccessLayer\FireBaseAccessLayer.cs" />
     <Compile Include="DataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -29,7 +29,7 @@ namespace RESTApp.BL
 
         private enum eUserRole { eDriver = 0, ePassenger = 1, eDeclined = 2, eUnknown = 3 }
         private enum eMatchStatus { eNew = 0, eApproved = 1, eDeclined = 2, eUnknown = 3 }
-        private enum eUserNotification { eNewGrpUser=0, ePassengersList=1}
+        private enum eUserNotification { eNewGrpUser = 0, ePassengersList = 1 }
 
         //   private static string SERVER_KEY = "AAAAK4i1ZVc:APA91bFiG1VeSR7pVUpOvvqdspp4BlPxO46uvPB7uoKal8evatTr0-qQ1L_S6phJA74IEPff4Pa7FIT-xiNDIdxl_T0NSNO9HeIm1BlW1_AmaTR_rsCZSUs4doF0oPOFAModJRRYqfcU";
         //     private static string SENDER_ID = "186977183063";
@@ -146,7 +146,7 @@ namespace RESTApp.BL
                         m_dal.AddGroupUser(grpUser);
 
                         isListChanged = true;
-                        
+
 
                     }
                     else
@@ -225,7 +225,7 @@ namespace RESTApp.BL
             {
 
                 if (grpUser.Role == (int)eUserRole.ePassenger &&
-                    ( grpUser.Matched == 0))
+                    (grpUser.Matched == 0))
                 {
                     grpUsers.Add(grpUser);
                 }
@@ -384,6 +384,6 @@ namespace RESTApp.BL
 
         #endregion
 
-        }
+    }
 
 }
