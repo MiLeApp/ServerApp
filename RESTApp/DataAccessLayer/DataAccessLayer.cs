@@ -11,42 +11,106 @@ namespace RESTApp.DataAccessLayerNameSpace
 
         public int GetGroupsLength()
         {
-            return m_db.Groups.Count();
+            try
+            {
+                return m_db.Groups.Count();
+            }
+            catch(Exception e)
+            {
+                return 0;
+            }
+       
         }
 
         public int GetGroupUsersLength()
         {
-            return m_db.GroupUsers.Count();
+            try
+            {
+                return m_db.GroupUsers.Count();
+            }
+            catch(Exception e)
+            {
+                return 0;
+            }
+            
         }
 
         public int GetMatchesLength()
         {
-            return m_db.Matches.Count();
+            try
+            {
+                return m_db.Matches.Count();
+            }
+            catch(Exception e)
+            {
+                return 0;
+            }
+          
         }
 
         public int GetRafaelMemebersLength()
         {
-            return m_db.RafaelMembers.Count();
+            try
+            {
+                return m_db.RafaelMembers.Count();
+            }
+            catch(Exception e)
+            {
+                return 0;
+            }
+      
         }
 
         public int GetRideRequestsLength()
         {
-            return m_db.RideRequests.Count();
+            try
+            {
+                return m_db.RideRequests.Count();
+            }
+            catch(Exception e)
+            {
+                return 0;
+            }
+            
         }
 
         public int GetRidesLength()
         {
-            return m_db.Rides.Count();
+            try
+            {
+                return m_db.Rides.Count();
+            }
+            catch(Exception e)
+            {
+                return 0;
+            }
+            
         }
 
         public int GetRideUsersLength()
         {
-            return m_db.RideUsers.Count();
+            try
+            {
+                return m_db.RideUsers.Count();
+            }
+            catch(Exception e)
+            {
+                return 0;
+            }
+           
         }
 
         public int GetUsersLength()
         {
-            return m_db.Users.Count();
+            try
+            {
+                return m_db.Users.Count();
+            }
+            catch(Exception e)
+            {
+                return 0;
+            }
+            
         }
 
         
