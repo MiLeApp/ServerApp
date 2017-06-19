@@ -243,7 +243,6 @@ C:\Users\User\Documents\getting-started-dotnet-master (1)\getting-started-dotnet
 C:\Users\User\Documents\getting-started-dotnet-master (1)\getting-started-dotnet-master\aspnet\ServerApp\RESTApp\bin\System.Net.Http.Formatting.xml
 C:\Users\User\Documents\getting-started-dotnet-master (1)\getting-started-dotnet-master\aspnet\ServerApp\RESTApp\bin\System.Web.Http.xml
 C:\Users\User\Documents\getting-started-dotnet-master (1)\getting-started-dotnet-master\aspnet\ServerApp\RESTApp\bin\System.Web.Http.WebHost.xml
-C:\Users\User\Documents\getting-started-dotnet-master (1)\getting-started-dotnet-master\aspnet\ServerApp\RESTApp\obj\Debug\RESTApp.csprojResolveAssemblyReference.cache
 C:\Users\User\Documents\getting-started-dotnet-master (1)\getting-started-dotnet-master\aspnet\ServerApp\RESTApp\obj\Debug\RESTApp.dll
 C:\Users\User\Documents\getting-started-dotnet-master (1)\getting-started-dotnet-master\aspnet\ServerApp\RESTApp\obj\Debug\RESTApp.pdb
 E:\RideApp\Repository\ServerApp2\RESTApp\bin\roslyn\csc.exe

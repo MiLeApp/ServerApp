@@ -354,6 +354,22 @@ namespace RESTApp.DataAccessLayerNameSpace
             }
         }
 
+        public void UpdateMatchStatus(Match p_match, int p_status)
+        {
+            try
+            {
+                Match match = m_db.Matches.First(matchRecord => matchRecord.GroupId == p_match.GroupId
+                                                    && matchRecord.UserId == p_match.UserId
+                                                    && matchRecord.DriverId == p_match.DriverId);
+                match.MatchStatus = p_status;
+                m_db.SaveChanges();
+            }
+            catch(Exception)
+            {
+
+            }
+        }
+
         public Match UpdateMatches(int p_groupId, Match p_match)
         {
             try
