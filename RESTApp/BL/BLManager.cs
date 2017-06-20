@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.SqlClient;
-using RESTApp.DataAccessLayerNameSpace;
 using Google.Apis.Services;
 using Google.Apis.Discovery;
 using GoogleMapsAPI.NET.API.Client;
@@ -21,8 +20,9 @@ namespace RESTApp.BL
         #region Class Members
         private static readonly BLManager m_instance = new BLManager();
 
-        DataAccessLayer m_dal = new DataAccessLayer();
-        FireBaseAccessLayer m_fbAccess = new FireBaseAccessLayer();
+        private DataAccessLayerNameSpace.DataAccessLayer m_dal = new DataAccessLayerNameSpace.DataAccessLayer();
+        private DataAccessLayerNameSpace.FireBaseAccessLayer m_fbAccess = new DataAccessLayerNameSpace.FireBaseAccessLayer();
+        private DataAccessLayerNameSpace.GoogleAPIAccessLayer m_googleApiAcess = new DataAccessLayerNameSpace.GoogleAPIAccessLayer();
         //private  SqlConnection m_appDBConn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\USERS\YONATANT\DOWNLOADS\SERVERAPP\SERVERAPP\RESTAPP\APP_DATA\RIDEAPPDB.MDF;Integrated Security=True");
         private int m_userIDIndex = 0;
         private int m_groupIDIndex = 0;
@@ -32,6 +32,8 @@ namespace RESTApp.BL
         private enum eMatchStatus { eNew = 0, eSentForApproval = 1, eApproved = 2, eDeclined = 3, eUnknown = 4 }
         private enum eUserNotification { eNewGrpUser = 0, ePassengersList = 1 }
         private enum eGroupType {eOneTimeEvent=0, eCompany=1, eGroup=2 }
+
+        private const int MAX_DISTANCE_DIF = 10; //[km] 
 
         //   private static string SERVER_KEY = "AAAAK4i1ZVc:APA91bFiG1VeSR7pVUpOvvqdspp4BlPxO46uvPB7uoKal8evatTr0-qQ1L_S6phJA74IEPff4Pa7FIT-xiNDIdxl_T0NSNO9HeIm1BlW1_AmaTR_rsCZSUs4doF0oPOFAModJRRYqfcU";
         //     private static string SENDER_ID = "186977183063";
@@ -139,15 +141,16 @@ namespace RESTApp.BL
 
         public int AddNewGroupUsersList(int goupID, List<string> phoneNums)
         {
-            RafaelMember curRafaeMember = null;
+           // RafaelMember curRafaeMember = null;
             User curUser = null;
             bool isListChanged = false;
 
             int currentGroupLength = m_dal.GetGroupUsers(goupID).Count();
             foreach (string phoneNum in phoneNums)
             {
-                curRafaeMember = m_dal.GetRafaelMember(phoneNum);
-                if (curRafaeMember != null)
+                //Anat: Temp remove check RafaelMembers
+               // curRafaeMember = m_dal.GetRafaelMember(phoneNum);
+              //  if (curRafaeMember != null)
                 {
                     curUser = m_dal.GetUser(phoneNum);
                     if (curUser != null)
@@ -289,13 +292,13 @@ namespace RESTApp.BL
             Ride newRide = new Ride();
             newRide.RideId = m_rideIDIndex;
             newRide.GroupId = groupId;
-            newRide.driverId = driverId;
+            newRide.DriverId = driverId;
             newRide.Date = m_dal.GetGroup(groupId).EventTime.Value.Date;
            // newRide.Time = m_dal.GetGroup(groupId).EventTime.Value.TimeOfDay;
             newRide.Distance = 0;
              
 
-            m_dal.AddRide(newRide);
+            
             ++m_rideIDIndex;
 
             foreach (int userId in acceptedUsersIds)
@@ -306,11 +309,23 @@ namespace RESTApp.BL
                 m_dal.AddRideUser(rideUser);
 
                 //update match status
-                m_dal.UpdateMatchStatus()
+                Match tempMatch = new Match();
+                tempMatch.GroupId = groupId;
+                tempMatch.DriverId = driverId;
+                tempMatch.UserId = userId;
+                tempMatch.MatchStatus = (int)eMatchStatus.eUnknown;
+                m_dal.UpdateMatchStatus(tempMatch, (int)eMatchStatus.eApproved);
 
             }
+
+            newRide.Distance = ComputeRideDistance(driverId, groupId, acceptedUsersIds);
+
+            m_dal.AddRide(newRide);
+
             return m_rideIDIndex;
         }
+
+      
 
         public int UpdateRide(int driverId, int groupId, List<int> acceptedUsersIds)
         {
@@ -326,11 +341,36 @@ namespace RESTApp.BL
                     rideUser.UserId = userId;
                     m_dal.AddRideUser(rideUser);
 
+                    //update match status
+                    Match tempMatch = new Match();
+                    tempMatch.GroupId = groupId;
+                    tempMatch.DriverId = driverId;
+                    tempMatch.UserId = userId;
+                    tempMatch.MatchStatus = (int)eMatchStatus.eUnknown;
+                    m_dal.UpdateMatchStatus(tempMatch, (int)eMatchStatus.eApproved);
+
                 }
 
+                currRide.Distance = ComputeRideDistance(driverId, groupId, acceptedUsersIds);
+                m_dal.UpdateRide(currRide.RideId, currRide);
                 return currRide.RideId;
             }
             return -1;
+        }
+
+        private int ComputeRideDistance(int driverId, int groupId, List<int> acceptedUsersIds)
+        {
+            GroupUser driverUser = m_dal.GetGroupUser(driverId);
+            string driverLoc = driverUser.From;
+            string toLoc = driverUser.To;
+            List<string> passengersLocs = new List<string>(acceptedUsersIds.Count);
+            foreach (int userId in acceptedUsersIds)
+            {
+                passengersLocs.Add(m_dal.GetGroupUser(userId).From);
+            }
+
+            int totalRideDist = m_googleApiAcess.GetShortestDistance(driverLoc, toLoc, passengersLocs);
+            return totalRideDist;
         }
 
         public Ride GetRide(int rideID)
@@ -348,12 +388,8 @@ namespace RESTApp.BL
 
         public void DeleteRide(int rideID)
         {
-            List<RideUser> rideUsers = m_dal.GetAllRideUsers(rideID);
-            foreach (RideUser rideUser in rideUsers)
-            {
-                m_dal.DeleteRideUser((int)rideUser.UserId);
-            }
-
+          
+            m_dal.DeleteRideUsers(rideID);
             //delete from groups table
             m_dal.DeleteRide(rideID);
         }
@@ -408,32 +444,14 @@ namespace RESTApp.BL
 
         private bool CheckCouple(GroupUser driver, GroupUser passenger)
         {
-            //Add google map service here
-            var client = new MapsAPIClient("AIzaSyC29znWjdwUcxAqvmlBQfa_0fGGwOQKfAo");
-            // Geocoding an address
-            // var geocodeResult = client.Geocoding.Geocode("1600 Amphitheatre Parkway, Mountain View, CA");
-            //
-            // Look up an address with reverse geocoding
-            // var reverseGeocodeResult = client.Geocoding.ReverseGeocode(40.714224, -73.961452);
+            
+            List<string> wayPoints = new List<string>();
+            int driverAloneDist = m_googleApiAcess.GetShortestDistance(driver.From, driver.To, wayPoints);
 
-            // Request directions via public transit
-            GoogleMapsAPI.NET.API.Directions.Responses.GetDirectionsResponse directionsResult = client.Directions.GetDirections(driver.From,
-                driver.To,
-                mode: TransportationModeEnum.Driving,
-                departureTime: DateTime.Now);
-            //Anat - check all routes
-            int driverAloneDist = directionsResult.Routes[0].Summary.Length;
+            wayPoints.Add(passenger.From);
+            int coupleDist = m_googleApiAcess.GetShortestDistance(driver.From, driver.To, wayPoints);
 
-            List<GoogleMapsAPI.NET.API.Common.Components.Locations.Common.Location> wayPnts = new List<GoogleMapsAPI.NET.API.Common.Components.Locations.Common.Location>(1);
-            GoogleMapsAPI.NET.API.Common.Components.Locations.PlaceLocation loc = new GoogleMapsAPI.NET.API.Common.Components.Locations.PlaceLocation(passenger.From);
-            wayPnts.Add(loc);
-            directionsResult = client.Directions.GetDirections(driver.From,
-                driver.To,
-                mode: TransportationModeEnum.Driving, waypoints: wayPnts);
-
-            int coupleDist = directionsResult.Routes[0].Summary.Length;
-
-            if (coupleDist - driverAloneDist < 10)
+            if (coupleDist - driverAloneDist < MAX_DISTANCE_DIF)
                 return true;
 
             return false;

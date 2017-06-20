@@ -142,6 +142,7 @@
     <Compile Include="Controllers\UserGroupsController.cs" />
     <Compile Include="DataAccessLayer\DataAccessLayer.cs" />
     <Compile Include="DataAccessLayer\FireBaseAccessLayer.cs" />
+    <Compile Include="DataAccessLayer\GoogleAPIAccessLayer.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
