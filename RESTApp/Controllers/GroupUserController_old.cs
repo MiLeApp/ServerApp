@@ -4,16 +4,26 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Data;
 using RESTApp.BL;
+//using RESTApp.Models;
 
 namespace RESTApp.Controllers
 {
     public class GroupUserController : ApiController
     {
-        // GET: api/GroupUser
+
+        // POST: api/Person/5
+        public int Post(int groupId)
+        {
+            return BLManager.Instance.AddNewGroupUsersList(groupId, phoneNums.PhoneNumbers);
+        }
+
+        // GET: api/Person
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            List<string> namesList = new List<string>();
+             return namesList;
         }
 
         // GET: api/Person/5
@@ -22,25 +32,15 @@ namespace RESTApp.Controllers
             return BLManager.Instance.GetGroupUser(groupId, userId);
         }
 
-        // GET: api/GroupUser/5
-        public string Get(int id)
+
+
+        // PUT: api/Person/5
+        public void Put(int groupId, GroupUser userObj)
         {
-            return "value";
+            BLManager.Instance.UpdateGroupUser(groupId, userObj);
         }
 
-        // POST: api/GroupUser
-        public int Post(Contacts p_contacts)
-        {
-            return BLManager.Instance.AddNewGroupUsersList(p_contacts.GroupId, p_contacts.PhoneNumbers);
-        }
-
-        // PUT: api/GroupUser/5
-        public void Put(int p_groupId, GroupUser p_user)
-        {
-            BLManager.Instance.UpdateGroupUser(p_groupId, p_user);
-        }
-
-        // DELETE: api/GroupUser/5
+        // DELETE: api/Person/5
         public void Delete(int groupId, int userId)
         {
             BLManager.Instance.DeleteGroupUser(groupId, userId);
@@ -48,7 +48,6 @@ namespace RESTApp.Controllers
 
         public class Contacts
         {
-            public int GroupId { get; set; }
             public List<string> PhoneNumbers { get; set; }
         }
     }
