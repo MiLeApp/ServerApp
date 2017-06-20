@@ -30,8 +30,8 @@ namespace RESTApp.BL
 
         private enum eUserRole { eDriver = 0, ePassenger = 1, eDeclined = 2, eUnknown = 3 }
         private enum eMatchStatus { eNew = 0, eSentForApproval = 1, eApproved = 2, eDeclined = 3, eUnknown = 4 }
-        private enum eUserNotification { eNewGrpUser = 0, ePassengersList = 1 }
-        private enum eGroupType {eOneTimeEvent=0, eCompany=1, eGroup=2 }
+        private enum eUserNotification { eNewGrpUser = 0, ePassengersListForDriver = 1, eRideDetailsToPassenger = 2 }
+        private enum eGroupType { eOneTimeEvent = 0, eCompany = 1, eGroup = 2 }
 
         private const int MAX_DISTANCE_DIF = 10; //[km] 
 
@@ -116,7 +116,7 @@ namespace RESTApp.BL
 
         public void DeleteGroup(int groupID)
         {
-            List<GroupUser> grpUsers =  m_dal.GetGroupUsers(groupID);
+            List<GroupUser> grpUsers = m_dal.GetGroupUsers(groupID);
             foreach (GroupUser grpUser in grpUsers)
             {
                 m_dal.DeleteGroupUser((int)grpUser.UserId);
@@ -146,7 +146,7 @@ namespace RESTApp.BL
 
         public int AddNewGroupUsersList(int goupID, List<string> phoneNums)
         {
-           // RafaelMember curRafaeMember = null;
+            // RafaelMember curRafaeMember = null;
             User curUser = null;
             bool isListChanged = false;
 
@@ -154,8 +154,8 @@ namespace RESTApp.BL
             foreach (string phoneNum in phoneNums)
             {
                 //Anat: Temp remove check RafaelMembers
-               // curRafaeMember = m_dal.GetRafaelMember(phoneNum);
-              //  if (curRafaeMember != null)
+                // curRafaeMember = m_dal.GetRafaelMember(phoneNum);
+                //  if (curRafaeMember != null)
                 {
                     curUser = m_dal.GetUser(phoneNum);
                     if (curUser != null)
@@ -294,18 +294,20 @@ namespace RESTApp.BL
 
         public int AddNewRide(int driverId, int groupId, List<int> acceptedUsersIds)
         {
+            //Create ride
             Ride newRide = new Ride();
             newRide.RideId = m_rideIDIndex;
             newRide.GroupId = groupId;
             newRide.DriverId = driverId;
             newRide.Date = m_dal.GetGroup(groupId).EventTime.Value.Date;
-           // newRide.Time = m_dal.GetGroup(groupId).EventTime.Value.TimeOfDay;
+            // newRide.Time = m_dal.GetGroup(groupId).EventTime.Value.TimeOfDay;
             newRide.Distance = 0;
-             
 
-            
+
+
             ++m_rideIDIndex;
 
+            //Add RideUsers
             foreach (int userId in acceptedUsersIds)
             {
                 RideUser rideUser = new RideUser();
@@ -323,14 +325,22 @@ namespace RESTApp.BL
 
             }
 
+            //compute Ride distance
             newRide.Distance = ComputeRideDistance(driverId, groupId, acceptedUsersIds);
 
             m_dal.AddRide(newRide);
 
+            //Update driver Mileage
+            User driverUser = m_dal.GetUser(driverId);
+            driverUser.Mileage += newRide.Distance;
+            m_dal.UpdateUser(driverId, driverUser);
+
+            SendPassengersNotification(newRide, acceptedUsersIds);
+
             return m_rideIDIndex;
         }
 
-      
+
 
         public int UpdateRide(int driverId, int groupId, List<int> acceptedUsersIds)
         {
@@ -358,6 +368,13 @@ namespace RESTApp.BL
 
                 currRide.Distance = ComputeRideDistance(driverId, groupId, acceptedUsersIds);
                 m_dal.UpdateRide(currRide.RideId, currRide);
+
+                User driverUser = m_dal.GetUser(driverId);
+                driverUser.Mileage += currRide.Distance;
+                m_dal.UpdateUser(driverId, driverUser);
+
+                SendPassengersNotification(currRide, acceptedUsersIds);
+
                 return currRide.RideId;
             }
             return -1;
@@ -380,7 +397,7 @@ namespace RESTApp.BL
 
         public Ride GetRide(int rideID)
         {
-           
+
             //get user data from DB
             return m_dal.GetRide(rideID);
         }
@@ -393,7 +410,7 @@ namespace RESTApp.BL
 
         public void DeleteRide(int rideID)
         {
-          
+
             m_dal.DeleteRideUsers(rideID);
             //delete from groups table
             m_dal.DeleteRide(rideID);
@@ -449,7 +466,7 @@ namespace RESTApp.BL
 
         private bool CheckCouple(GroupUser driver, GroupUser passenger)
         {
-            
+
             List<string> wayPoints = new List<string>();
             int driverAloneDist = m_googleApiAcess.GetShortestDistance(driver.From, driver.To, wayPoints);
 
@@ -473,16 +490,17 @@ namespace RESTApp.BL
             m_dal.AddMatch(newMatch);
             m_dal.UpdateGroupUser(groupId, passenger);
 
-            
+
         }
         #endregion
-#region Notifications
+
+        #region Notifications
         private void SendDriversNotification(int groupId, List<GroupUser> grpDrivers)
         {
             List<Match> grpMatches = m_dal.GetMatches(groupId);
 
             UserNotification driverNotification = new UserNotification();
-            driverNotification.OpCode = (int)eUserNotification.ePassengersList;
+            driverNotification.OpCode = (int)eUserNotification.ePassengersListForDriver;
             driverNotification.Title = "You have new ride ";
 
             foreach (GroupUser driver in grpDrivers)
@@ -493,10 +511,10 @@ namespace RESTApp.BL
                     if (match.DriverId == driver.UserId && match.MatchStatus == (int)eMatchStatus.eNew)
                     {
                         GroupUser grpUser = m_dal.GetGroupUser((int)match.UserId);
-                        driverNotification.NotificationObj.Add(grpUser);                     
+                        driverNotification.NotificationObj.Add(grpUser);
                         m_dal.UpdateMatchStatus(match, (int)eMatchStatus.eSentForApproval);
                     }
-                    
+
                 }
                 if (driverNotification.NotificationObj.Count > 0)
                     m_fbAccess.PushNotification(driverNotification);
@@ -505,7 +523,21 @@ namespace RESTApp.BL
             //send notification
         }
 
-#endregion    
+        private void SendPassengersNotification(Ride ride, List<int> passengersIds)
+        {
+            UserNotification passengerNotification = new UserNotification();
+            passengerNotification.OpCode = (int)eUserNotification.eRideDetailsToPassenger;
+            passengerNotification.Title = "You are invited to the ride";
+
+            foreach (int passId in passengersIds)
+            {
+                passengerNotification.ReceiverFBId = m_dal.GetUser((int)passId).IdFB;
+                passengerNotification.NotificationObj.Add(ride);
+            }
+
+        }
+
+        #endregion
 
     }
 

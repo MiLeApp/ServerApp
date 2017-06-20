@@ -126,7 +126,7 @@ namespace RESTApp.DataAccessLayerNameSpace
                 m_db.Users.Add(p_user);
                 m_db.SaveChanges();
             }
-            catch(Exception)
+            catch(Exception e)
             {
                 return null;
             }

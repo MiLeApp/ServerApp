@@ -143,6 +143,7 @@
     <Compile Include="Controllers\UserGroupsController.cs" />
     <Compile Include="DataAccessLayer\DataAccessLayer.cs" />
     <Compile Include="DataAccessLayer\FireBaseAccessLayer.cs" />
+    <Compile Include="DataAccessLayer\GoogleAPIAccessLayer.cs" />
     <Compile Include="DataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
