@@ -127,6 +127,11 @@ namespace RESTApp.BL
 
         }
 
+        public void AddRafaelMember(RafaelMember p_rafaelMemeber)
+        {
+            m_dal.AddRafaelMemeber(p_rafaelMemeber);
+        }
+
         public int AddNewGroupUsersList(int goupID, List<string> phoneNums)
         {
             RafaelMember curRafaeMember = null;

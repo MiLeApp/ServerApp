@@ -14,10 +14,11 @@ namespace RESTApp
     
     public partial class RafaelMember
     {
+        public int ID { get; set; }
         public string Name { get; set; }
         public string PhoneNum { get; set; }
-        public string Home_Adress { get; set; }
-        public string Work_Site { get; set; }
+        public string HomeAddress { get; set; }
+        public string WorkSite { get; set; }
         public Nullable<int> HasCar { get; set; }
     }
 }
