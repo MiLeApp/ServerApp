@@ -154,7 +154,7 @@ namespace RESTApp.DataAccessLayerNameSpace
                 m_db.RafaelMembers.Add(p_rafaelMemebr);
                 m_db.SaveChanges();
             }
-            catch(Exception)
+            catch(Exception e)
             {
                 return null;
             }
@@ -745,7 +745,7 @@ namespace RESTApp.DataAccessLayerNameSpace
 
         #region Members
 
-        private RideDBEntities m_db = new RideDBEntities();
+        private RideDBEntities5 m_db = new RideDBEntities5();
 
         #endregion
 

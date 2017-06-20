@@ -13,10 +13,10 @@ namespace RESTApp
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class RideDBEntities : DbContext
+    public partial class RideDBEntities5 : DbContext
     {
-        public RideDBEntities()
-            : base("name=RideDBEntities")
+        public RideDBEntities5()
+            : base("name=RideDBEntities5")
         {
         }
     

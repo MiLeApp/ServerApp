@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="RideDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="RideDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Groups">
           <Key>
             <PropertyRef Name="GroupId" />
@@ -40,12 +40,13 @@
         </EntityType>
         <EntityType Name="RafaelMembers">
           <Key>
-            <PropertyRef Name="PhoneNum" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="Name" Type="varchar" MaxLength="50" />
-          <Property Name="PhoneNum" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="Home Adress" Type="varchar" MaxLength="50" />
-          <Property Name="Work Site" Type="nchar" MaxLength="10" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="text" />
+          <Property Name="PhoneNum" Type="text" />
+          <Property Name="HomeAddress" Type="text" />
+          <Property Name="WorkSite" Type="text" />
           <Property Name="HasCar" Type="int" />
         </EntityType>
         <EntityType Name="RideRequests">
@@ -100,7 +101,8 @@
           <EntitySet Name="RideUsers" EntityType="Self.RideUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="RideDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -139,12 +141,13 @@
         </EntityType>
         <EntityType Name="RafaelMember">
           <Key>
-            <PropertyRef Name="PhoneNum" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PhoneNum" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Home_Adress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Work_Site" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNum" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="HomeAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="WorkSite" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="HasCar" Type="Int32" />
         </EntityType>
         <EntityType Name="RideRequest">
@@ -189,7 +192,7 @@
           <Property Name="Role" Type="Int32" />
           <Property Name="IdFB" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityContainer Name="RideDBEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="RideDBEntities5" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Groups" EntityType="Self.Group" />
           <EntitySet Name="GroupUsers" EntityType="Self.GroupUser" />
           <EntitySet Name="Matches" EntityType="Self.Match" />
@@ -204,7 +207,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="RideDBModelStoreContainer" CdmEntityContainer="RideDBEntities">
+        <EntityContainerMapping StorageEntityContainer="RideDBModelStoreContainer" CdmEntityContainer="RideDBEntities5">
           <EntitySetMapping Name="Groups">
             <EntityTypeMapping TypeName="RideDBModel.Group">
               <MappingFragment StoreEntitySet="Groups">
@@ -244,10 +247,11 @@
           <EntitySetMapping Name="RafaelMembers">
             <EntityTypeMapping TypeName="RideDBModel.RafaelMember">
               <MappingFragment StoreEntitySet="RafaelMembers">
+                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="PhoneNum" ColumnName="PhoneNum" />
-                <ScalarProperty Name="Home_Adress" ColumnName="Home Adress" />
-                <ScalarProperty Name="Work_Site" ColumnName="Work Site" />
+                <ScalarProperty Name="HomeAddress" ColumnName="HomeAddress" />
+                <ScalarProperty Name="WorkSite" ColumnName="WorkSite" />
                 <ScalarProperty Name="HasCar" ColumnName="HasCar" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -267,12 +271,12 @@
           <EntitySetMapping Name="Rides">
             <EntityTypeMapping TypeName="RideDBModel.Ride">
               <MappingFragment StoreEntitySet="Rides">
-                <ScalarProperty Name="DriverId" ColumnName="DriverId" />
                 <ScalarProperty Name="RideId" ColumnName="RideId" />
                 <ScalarProperty Name="GroupId" ColumnName="GroupId" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Time" ColumnName="Time" />
                 <ScalarProperty Name="Distance" ColumnName="Distance" />
+                <ScalarProperty Name="DriverId" ColumnName="DriverId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
